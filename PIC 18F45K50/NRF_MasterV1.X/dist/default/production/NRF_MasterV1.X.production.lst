@@ -1,0 +1,2302 @@
+
+
+Microchip Technology PIC18 LITE Macro Assembler V1.40 build -251452761 
+                                                                                               Wed May 24 19:25:25 2017
+
+Microchip Technology Omniscient Code Generator v1.40 (Free mode) build 201612010151
+     1                           	processor	18F45K50
+     2                           	fnconf	rparam,??,?,0
+     3                           	opt	pw 120
+     4                           	opt	lm
+     5                           	psect	cinit,global,reloc=2,class=CODE,delta=1
+     6                           	psect	bssCOMRAM,global,class=COMRAM,space=1,delta=1,noexec
+     7                           	psect	cstackBANK0,global,class=BANK0,space=1,delta=1,noexec
+     8                           	psect	cstackCOMRAM,global,class=COMRAM,space=1,delta=1,noexec
+     9                           	psect	text0,global,reloc=2,class=CODE,delta=1
+    10                           	psect	text1,global,reloc=2,class=CODE,delta=1
+    11                           	psect	text2,global,reloc=2,class=CODE,delta=1
+    12                           	psect	text3,global,reloc=2,class=CODE,delta=1
+    13                           	psect	text4,global,reloc=2,class=CODE,delta=1
+    14                           	psect	text5,global,reloc=2,class=CODE,delta=1
+    15                           	psect	text6,global,reloc=2,class=CODE,delta=1
+    16                           	psect	text7,global,reloc=2,class=CODE,delta=1
+    17                           	psect	text8,global,reloc=2,class=CODE,delta=1
+    18                           	psect	text9,global,reloc=2,class=CODE,delta=1
+    19                           	psect	text10,global,reloc=2,class=CODE,delta=1
+    20                           	psect	text11,global,reloc=2,class=CODE,delta=1
+    21                           	psect	intcode,global,reloc=2,class=CODE,delta=1
+    22                           	psect	text13,global,reloc=2,class=CODE,delta=1
+    23                           	psect	text14,global,reloc=2,class=CODE,delta=1
+    24                           	psect	intsave_regs,global,class=BIGRAM,space=1,delta=1,noexec
+    25                           	psect	rparam,global,class=COMRAM,space=1,delta=1,noexec
+    26                           	psect	temp,global,ovrld,common,class=COMRAM,space=1,delta=1
+    27  0000                     
+    28                           ; Version 1.40
+    29                           ; Generated 01/12/2016 GMT
+    30                           ; 
+    31                           ; Copyright © 2016, Microchip Technology Inc. and its subsidiaries ("Microchip")
+    32                           ; All rights reserved.
+    33                           ; 
+    34                           ; This software is developed by Microchip Technology Inc. and its subsidiaries ("Microch
+      +                          ip").
+    35                           ; 
+    36                           ; Redistribution and use in source and binary forms, with or without modification, are
+    37                           ; permitted provided that the following conditions are met:
+    38                           ; 
+    39                           ;     1. Redistributions of source code must retain the above copyright notice, this lis
+      +                          t of
+    40                           ;        conditions and the following disclaimer.
+    41                           ; 
+    42                           ;     2. Redistributions in binary form must reproduce the above copyright notice, this 
+      +                          list
+    43                           ;        of conditions and the following disclaimer in the documentation and/or other
+    44                           ;        materials provided with the distribution.
+    45                           ; 
+    46                           ;     3. Microchip's name may not be used to endorse or promote products derived from th
+      +                          is
+    47                           ;        software without specific prior written permission.
+    48                           ; 
+    49                           ; THIS SOFTWARE IS PROVIDED BY MICROCHIP "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+    50                           ; INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS F
+      +                          OR
+    51                           ; PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MICROCHIP BE LIABLE FOR ANY DIRECT, INDIREC
+      +                          T,
+    52                           ; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
+    53                           ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS
+    54                           ; INTERRUPTION) HOWSOEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, ST
+      +                          RICT
+    55                           ; LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U
+      +                          SE OF
+    56                           ; THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    57                           ; 
+    58                           ; 
+    59                           ; Code-generator required, PIC18F45K50 Definitions
+    60                           ; 
+    61                           ; SFR Addresses
+    62  0000                     _ANSELBbits	set	3932
+    63  0000                     _INTCON2bits	set	4081
+    64  0000                     _INTCON3bits	set	4080
+    65  0000                     _INTCONbits	set	4082
+    66  0000                     _LATBbits	set	3978
+    67  0000                     _LATDbits	set	3980
+    68  0000                     _PIR1bits	set	3998
+    69  0000                     _SSP1BUF	set	4041
+    70  0000                     _SSP1CON1bits	set	4038
+    71  0000                     _SSP1STATbits	set	4039
+    72  0000                     _TRISAbits	set	3986
+    73  0000                     _TRISBbits	set	3987
+    74  0000                     _TRISCbits	set	3988
+    75  0000                     _TRISDbits	set	3989
+    76                           
+    77                           ; #config settings
+    78  0000                     
+    79                           	psect	cinit
+    80  0003BA                     __pcinit:
+    81                           	opt stack 0
+    82  0003BA                     start_initialization:
+    83                           	opt stack 0
+    84  0003BA                     __initialization:
+    85                           	opt stack 0
+    86                           
+    87                           ; Clear objects allocated to COMRAM (16 bytes)
+    88  0003BA  EE00  F024         	lfsr	0,__pbssCOMRAM
+    89  0003BE  0E10               	movlw	16
+    90  0003C0                     clear_0:
+    91  0003C0  6AEE               	clrf	postinc0,c
+    92  0003C2  06E8               	decf	wreg,f,c
+    93  0003C4  E1FD               	bnz	clear_0
+    94  0003C6                     end_of_initialization:
+    95                           	opt stack 0
+    96  0003C6                     __end_of__initialization:
+    97                           	opt stack 0
+    98  0003C6  9034               	bcf	int$flags,0,c	;clear compiler interrupt flag (level 1)
+    99  0003C8  9234               	bcf	int$flags,1,c	;clear compiler interrupt flag (level 2)
+   100  0003CA  0E00               	movlw	low (__Lmediumconst shr (0+16))
+   101  0003CC  6EF8               	movwf	tblptru,c
+   102  0003CE  0100               	movlb	0
+   103  0003D0  EF22  F001         	goto	_main	;jump to C main() function
+   104                           tblptru	equ	0xFF8
+   105                           postinc0	equ	0xFEE
+   106                           wreg	equ	0xFE8
+   107                           
+   108                           	psect	bssCOMRAM
+   109  000024                     __pbssCOMRAM:
+   110                           	opt stack 0
+   111  000024                     _received_string:
+   112                           	opt stack 0
+   113  000024                     	ds	15
+   114  000033                     _PTX:
+   115                           	opt stack 0
+   116  000033                     	ds	1
+   117                           tblptru	equ	0xFF8
+   118                           postinc0	equ	0xFEE
+   119                           wreg	equ	0xFE8
+   120                           
+   121                           	psect	cstackBANK0
+   122  000060                     __pcstackBANK0:
+   123                           	opt stack 0
+   124  000060                     main@payload:
+   125                           	opt stack 0
+   126                           
+   127                           ; 32 bytes @ 0x0
+   128  000060                     	ds	32
+   129  000080                     main@maincounter:
+   130                           	opt stack 0
+   131                           
+   132                           ; 1 bytes @ 0x20
+   133  000080                     	ds	1
+   134  000081                     main@k:
+   135                           	opt stack 0
+   136                           
+   137                           ; 1 bytes @ 0x21
+   138  000081                     	ds	1
+   139                           tblptru	equ	0xFF8
+   140                           postinc0	equ	0xFEE
+   141                           wreg	equ	0xFE8
+   142                           
+   143                           	psect	cstackCOMRAM
+   144  000001                     __pcstackCOMRAM:
+   145                           	opt stack 0
+   146  000001                     i2spi_fast_shift@data:
+   147                           	opt stack 0
+   148                           
+   149                           ; 1 bytes @ 0x0
+   150  000001                     	ds	1
+   151  000002                     i2wl_module_config_register@value:
+   152                           	opt stack 0
+   153                           
+   154                           ; 1 bytes @ 0x1
+   155  000002                     	ds	1
+   156  000003                     i2wl_module_config_register@reg:
+   157                           	opt stack 0
+   158                           
+   159                           ; 1 bytes @ 0x2
+   160  000003                     	ds	1
+   161  000004                     ??_ISR:
+   162                           
+   163                           ; 1 bytes @ 0x3
+   164  000004                     	ds	14
+   165  000012                     ISR@status:
+   166                           	opt stack 0
+   167                           
+   168                           ; 1 bytes @ 0x11
+   169  000012                     	ds	1
+   170  000013                     spi_fast_shift@data:
+   171                           	opt stack 0
+   172  000013                     spi_transmit_sync@data:
+   173                           	opt stack 0
+   174  000013                     __delay_10ms@length:
+   175                           	opt stack 0
+   176                           
+   177                           ; 2 bytes @ 0x12
+   178  000013                     	ds	1
+   179  000014                     wl_module_config_register@value:
+   180                           	opt stack 0
+   181                           
+   182                           ; 1 bytes @ 0x13
+   183  000014                     	ds	1
+   184  000015                     ??__delay_10ms:
+   185  000015                     wl_module_config_register@reg:
+   186                           	opt stack 0
+   187  000015                     spi_transmit_sync@length:
+   188                           	opt stack 0
+   189                           
+   190                           ; 2 bytes @ 0x14
+   191  000015                     	ds	2
+   192  000017                     spi_transmit_sync@tmp:
+   193                           	opt stack 0
+   194                           
+   195                           ; 1 bytes @ 0x16
+   196  000017                     	ds	1
+   197  000018                     wl_module_write_register@value:
+   198                           	opt stack 0
+   199  000018                     wl_module_send@value:
+   200                           	opt stack 0
+   201                           
+   202                           ; 2 bytes @ 0x17
+   203  000018                     	ds	2
+   204  00001A                     wl_module_write_register@len:
+   205                           	opt stack 0
+   206  00001A                     wl_module_send@len:
+   207                           	opt stack 0
+   208                           
+   209                           ; 1 bytes @ 0x19
+   210  00001A                     	ds	1
+   211  00001B                     wl_module_write_register@reg:
+   212                           	opt stack 0
+   213                           
+   214                           ; 1 bytes @ 0x1A
+   215  00001B                     	ds	1
+   216  00001C                     wl_module_set_RADDR@adr:
+   217                           	opt stack 0
+   218  00001C                     wl_module_set_TADDR@adr:
+   219                           	opt stack 0
+   220                           
+   221                           ; 2 bytes @ 0x1B
+   222  00001C                     	ds	2
+   223  00001E                     wl_module_tx_config@tx_nr:
+   224                           	opt stack 0
+   225                           
+   226                           ; 1 bytes @ 0x1D
+   227  00001E                     	ds	1
+   228  00001F                     wl_module_tx_config@tx_addr:
+   229                           	opt stack 0
+   230                           
+   231                           ; 5 bytes @ 0x1E
+   232  00001F                     	ds	5
+   233  000024                     tblptru	equ	0xFF8
+   234                           postinc0	equ	0xFEE
+   235                           wreg	equ	0xFE8
+   236                           
+   237                           ; 1 bytes @ 0x23
+   238 ;;
+   239 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
+   240 ;;
+   241 ;; *************** function _main *****************
+   242 ;; Defined at:
+   243 ;;		line 37 in file "main.c"
+   244 ;; Parameters:    Size  Location     Type
+   245 ;;		None
+   246 ;; Auto vars:     Size  Location     Type
+   247 ;;  payload        32    0[BANK0 ] unsigned char [32]
+   248 ;;  k               1   33[BANK0 ] unsigned char 
+   249 ;;  maincounter     1   32[BANK0 ] unsigned char 
+   250 ;; Return value:  Size  Location     Type
+   251 ;;                  2  227[None  ] int 
+   252 ;; Registers used:
+   253 ;;		wreg, fsr2l, fsr2h, status,2, status,0, prodl, prodh, cstack
+   254 ;; Tracked objects:
+   255 ;;		On entry : 0/0
+   256 ;;		On exit  : 0/0
+   257 ;;		Unchanged: 0/0
+   258 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   259 ;;      Params:         0       0       0       0       0       0       0       0       0
+   260 ;;      Locals:         0      34       0       0       0       0       0       0       0
+   261 ;;      Temps:          0       0       0       0       0       0       0       0       0
+   262 ;;      Totals:         0      34       0       0       0       0       0       0       0
+   263 ;;Total ram usage:       34 bytes
+   264 ;; Hardware stack levels required when called:    7
+   265 ;; This function calls:
+   266 ;;		__delay_10ms
+   267 ;;		_wl_module_init
+   268 ;;		_wl_module_send
+   269 ;;		_wl_module_tx_config
+   270 ;; This function is called by:
+   271 ;;		Startup code after reset
+   272 ;; This function uses a non-reentrant model
+   273 ;;
+   274                           
+   275                           	psect	text0
+   276  000244                     __ptext0:
+   277                           	opt stack 0
+   278  000244                     _main:
+   279                           	opt stack 24
+   280                           
+   281                           ;main.c: 38: unsigned char payload[32];
+   282                           ;main.c: 39: unsigned char maincounter =0;
+   283                           
+   284                           ;incstack = 0
+   285  000244  0E00               	movlw	0
+   286  000246  0100               	movlb	0	; () banked
+   287  000248  6F80               	movwf	main@maincounter& (0+255),b
+   288                           
+   289                           ; BSR set to: 0
+   290                           ;main.c: 40: unsigned char k;
+   291                           ;main.c: 44: TRISDbits.TRISD4 = 0;
+   292  00024A  9895               	bcf	3989,4,c	;volatile
+   293                           
+   294                           ; BSR set to: 0
+   295                           ;main.c: 45: LATDbits.LATD4 = 1;
+   296  00024C  888C               	bsf	3980,4,c	;volatile
+   297                           
+   298                           ; BSR set to: 0
+   299                           ;main.c: 47: wl_module_init();
+   300  00024E  EC02  F002         	call	_wl_module_init	;wreg free
+   301                           
+   302                           ;main.c: 48: _delay_10ms(5);
+   303  000252  0E00               	movlw	0
+   304  000254  6E14               	movwf	__delay_10ms@length+1,c
+   305  000256  0E05               	movlw	5
+   306  000258  6E13               	movwf	__delay_10ms@length,c
+   307  00025A  ECCD  F001         	call	__delay_10ms	;wreg free
+   308                           
+   309                           ;main.c: 50: INTCONbits.PEIE = 1;
+   310  00025E  8CF2               	bsf	intcon,6,c	;volatile
+   311                           
+   312                           ;main.c: 51: INTCONbits.GIE = 1;
+   313  000260  8EF2               	bsf	intcon,7,c	;volatile
+   314                           
+   315                           ;main.c: 53: wl_module_tx_config(0);
+   316  000262  0E00               	movlw	0
+   317  000264  EC67  F000         	call	_wl_module_tx_config
+   318  000268                     l1847:
+   319                           
+   320                           ;main.c: 56: LATDbits.LATD4 = 0;
+   321  000268  988C               	bcf	3980,4,c	;volatile
+   322                           
+   323                           ;main.c: 57: for (k=0; k<=32-1; k++){
+   324  00026A  0E00               	movlw	0
+   325  00026C  0100               	movlb	0	; () banked
+   326  00026E  6F81               	movwf	main@k& (0+255),b
+   327  000270                     l1851:
+   328                           
+   329                           ; BSR set to: 0
+   330  000270  0E1F               	movlw	31
+   331  000272  0100               	movlb	0	; () banked
+   332  000274  6581               	cpfsgt	main@k& (0+255),b
+   333  000276  D001               	goto	l1855
+   334  000278  D00E               	goto	l230
+   335  00027A                     l1855:
+   336                           
+   337                           ; BSR set to: 0
+   338                           ;main.c: 58: payload[k] = k;
+   339  00027A  0100               	movlb	0	; () banked
+   340  00027C  5181               	movf	main@k& (0+255),w,b
+   341  00027E  0D01               	mullw	1
+   342  000280  0E60               	movlw	low main@payload
+   343  000282  24F3               	addwf	prodl,w,c
+   344  000284  6ED9               	movwf	fsr2l,c
+   345  000286  0E00               	movlw	high main@payload
+   346  000288  20F4               	addwfc	prodh,w,c
+   347  00028A  6EDA               	movwf	fsr2h,c
+   348  00028C  C081  FFDF         	movff	main@k,indf2
+   349                           
+   350                           ; BSR set to: 0
+   351  000290  0100               	movlb	0	; () banked
+   352  000292  2B81               	incf	main@k& (0+255),f,b
+   353  000294  D7ED               	goto	l1851
+   354  000296                     l230:
+   355                           
+   356                           ; BSR set to: 0
+   357                           ;main.c: 59: }
+   358                           ;main.c: 61: payload[0] = maincounter;
+   359  000296  C080  F060         	movff	main@maincounter,main@payload
+   360                           
+   361                           ; BSR set to: 0
+   362                           ;main.c: 62: payload[1] = maincounter+1;
+   363  00029A  0100               	movlb	0	; () banked
+   364  00029C  2980               	incf	main@maincounter& (0+255),w,b
+   365  00029E  0100               	movlb	0	; () banked
+   366  0002A0  6F61               	movwf	(main@payload+1)& (0+255),b
+   367                           
+   368                           ; BSR set to: 0
+   369                           ;main.c: 64: wl_module_send(payload,32);
+   370  0002A2  0E60               	movlw	low main@payload
+   371  0002A4  6E18               	movwf	wl_module_send@value,c
+   372  0002A6  0E00               	movlw	high main@payload
+   373  0002A8  6E19               	movwf	wl_module_send@value+1,c
+   374  0002AA  0E20               	movlw	32
+   375  0002AC  6E1A               	movwf	wl_module_send@len,c
+   376  0002AE  EC70  F001         	call	_wl_module_send	;wreg free
+   377                           
+   378                           ;main.c: 66: maincounter++;
+   379  0002B2  0100               	movlb	0	; () banked
+   380  0002B4  2B80               	incf	main@maincounter& (0+255),f,b
+   381                           
+   382                           ; BSR set to: 0
+   383                           ;main.c: 67: if (maincounter > 0x0F){
+   384  0002B6  0E0F               	movlw	15
+   385  0002B8  0100               	movlb	0	; () banked
+   386  0002BA  6580               	cpfsgt	main@maincounter& (0+255),b
+   387  0002BC  D003               	goto	l1871
+   388                           
+   389                           ; BSR set to: 0
+   390                           ;main.c: 68: maincounter = 0;
+   391  0002BE  0E00               	movlw	0
+   392  0002C0  0100               	movlb	0	; () banked
+   393  0002C2  6F80               	movwf	main@maincounter& (0+255),b
+   394  0002C4                     l1871:
+   395                           
+   396                           ; BSR set to: 0
+   397                           ;main.c: 69: }
+   398                           ;main.c: 70: _delay_10ms(50);
+   399  0002C4  0E00               	movlw	0
+   400  0002C6  6E14               	movwf	__delay_10ms@length+1,c
+   401  0002C8  0E32               	movlw	50
+   402  0002CA  6E13               	movwf	__delay_10ms@length,c
+   403  0002CC  ECCD  F001         	call	__delay_10ms	;wreg free
+   404                           
+   405                           ;main.c: 71: LATDbits.LATD4 = 1;
+   406  0002D0  888C               	bsf	3980,4,c	;volatile
+   407                           
+   408                           ;main.c: 72: _delay_10ms(50);
+   409  0002D2  0E00               	movlw	0
+   410  0002D4  6E14               	movwf	__delay_10ms@length+1,c
+   411  0002D6  0E32               	movlw	50
+   412  0002D8  6E13               	movwf	__delay_10ms@length,c
+   413  0002DA  ECCD  F001         	call	__delay_10ms	;wreg free
+   414  0002DE  D7C4               	goto	l1847
+   415  0002E0                     __end_of_main:
+   416                           	opt stack 0
+   417                           tblptru	equ	0xFF8
+   418                           prodh	equ	0xFF4
+   419                           prodl	equ	0xFF3
+   420                           intcon	equ	0xFF2
+   421                           postinc0	equ	0xFEE
+   422                           wreg	equ	0xFE8
+   423                           indf2	equ	0xFDF
+   424                           fsr2h	equ	0xFDA
+   425                           fsr2l	equ	0xFD9
+   426                           
+   427 ;; *************** function _wl_module_tx_config *****************
+   428 ;; Defined at:
+   429 ;;		line 107 in file "wl_module.c"
+   430 ;; Parameters:    Size  Location     Type
+   431 ;;  tx_nr           1    wreg     unsigned char 
+   432 ;; Auto vars:     Size  Location     Type
+   433 ;;  tx_nr           1   29[COMRAM] unsigned char 
+   434 ;;  tx_addr         5   30[COMRAM] unsigned char [5]
+   435 ;; Return value:  Size  Location     Type
+   436 ;;                  1    wreg      void 
+   437 ;; Registers used:
+   438 ;;		wreg, fsr2l, fsr2h, status,2, status,0, cstack
+   439 ;; Tracked objects:
+   440 ;;		On entry : 0/0
+   441 ;;		On exit  : 0/0
+   442 ;;		Unchanged: 0/0
+   443 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   444 ;;      Params:         0       0       0       0       0       0       0       0       0
+   445 ;;      Locals:         6       0       0       0       0       0       0       0       0
+   446 ;;      Temps:          0       0       0       0       0       0       0       0       0
+   447 ;;      Totals:         6       0       0       0       0       0       0       0       0
+   448 ;;Total ram usage:        6 bytes
+   449 ;; Hardware stack levels used:    1
+   450 ;; Hardware stack levels required when called:    6
+   451 ;; This function calls:
+   452 ;;		_wl_module_config_register
+   453 ;;		_wl_module_set_RADDR
+   454 ;;		_wl_module_set_TADDR
+   455 ;; This function is called by:
+   456 ;;		_main
+   457 ;; This function uses a non-reentrant model
+   458 ;;
+   459                           
+   460                           	psect	text1
+   461  0000CE                     __ptext1:
+   462                           	opt stack 0
+   463  0000CE                     _wl_module_tx_config:
+   464                           	opt stack 24
+   465                           
+   466                           ;incstack = 0
+   467                           ;wl_module_tx_config@tx_nr stored from wreg
+   468  0000CE  6E1E               	movwf	wl_module_tx_config@tx_nr,c
+   469                           
+   470                           ;wl_module.c: 109: unsigned char tx_addr[5];
+   471                           ;wl_module.c: 112: wl_module_config_register(0x05,2);
+   472  0000D0  0E02               	movlw	2
+   473  0000D2  6E14               	movwf	wl_module_config_register@value,c
+   474  0000D4  0E05               	movlw	5
+   475  0000D6  ECF6  F001         	call	_wl_module_config_register
+   476                           
+   477                           ;wl_module.c: 114: wl_module_config_register(0x06,(0x06 | 0x20));
+   478  0000DA  0E26               	movlw	38
+   479  0000DC  6E14               	movwf	wl_module_config_register@value,c
+   480  0000DE  0E06               	movlw	6
+   481  0000E0  ECF6  F001         	call	_wl_module_config_register
+   482                           
+   483                           ;wl_module.c: 116: wl_module_config_register(0x00, ( (1<<6) | (1<<3) | (1<<2) ));
+   484  0000E4  0E4C               	movlw	76
+   485  0000E6  6E14               	movwf	wl_module_config_register@value,c
+   486  0000E8  0E00               	movlw	0
+   487  0000EA  ECF6  F001         	call	_wl_module_config_register
+   488                           
+   489                           ;wl_module.c: 120: wl_module_config_register(0x04,(0x20 | 0x0F));
+   490  0000EE  0E2F               	movlw	47
+   491  0000F0  6E14               	movwf	wl_module_config_register@value,c
+   492  0000F2  0E04               	movlw	4
+   493  0000F4  ECF6  F001         	call	_wl_module_config_register
+   494                           
+   495                           ;wl_module.c: 123: switch(tx_nr)
+   496  0000F8  D08A               	goto	l1623
+   497  0000FA                     l1585:
+   498                           
+   499                           ;wl_module.c: 126: tx_addr[0] = tx_addr[1] = tx_addr[2] = tx_addr[3] = tx_addr[4] = 0xE7
+      +                          ;
+   500  0000FA  0EE7               	movlw	231
+   501  0000FC  6E23               	movwf	wl_module_tx_config@tx_addr+4,c
+   502  0000FE  C023  F022         	movff	wl_module_tx_config@tx_addr+4,wl_module_tx_config@tx_addr+3
+   503  000102  C022  F021         	movff	wl_module_tx_config@tx_addr+3,wl_module_tx_config@tx_addr+2
+   504  000106  C021  F020         	movff	wl_module_tx_config@tx_addr+2,wl_module_tx_config@tx_addr+1
+   505  00010A  C020  F01F         	movff	wl_module_tx_config@tx_addr+1,wl_module_tx_config@tx_addr
+   506                           
+   507                           ;wl_module.c: 127: wl_module_set_TADDR(tx_addr);
+   508  00010E  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   509  000110  6E1C               	movwf	wl_module_set_TADDR@adr,c
+   510  000112  0E00               	movlw	high wl_module_tx_config@tx_addr
+   511  000114  6E1D               	movwf	wl_module_set_TADDR@adr+1,c
+   512  000116  EC1A  F002         	call	_wl_module_set_TADDR	;wreg free
+   513                           
+   514                           ;wl_module.c: 128: wl_module_set_RADDR(tx_addr);
+   515  00011A  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   516  00011C  6E1C               	movwf	wl_module_set_RADDR@adr,c
+   517  00011E  0E00               	movlw	high wl_module_tx_config@tx_addr
+   518  000120  6E1D               	movwf	wl_module_set_RADDR@adr+1,c
+   519  000122  ECEA  F001         	call	_wl_module_set_RADDR	;wreg free
+   520                           
+   521                           ;wl_module.c: 129: break;
+   522  000126  D086               	goto	l1625
+   523  000128                     l1591:
+   524                           
+   525                           ;wl_module.c: 131: tx_addr[0] = tx_addr[1] = tx_addr[2] = tx_addr[3] = tx_addr[4] = 0xC2
+      +                          ;
+   526  000128  0EC2               	movlw	194
+   527  00012A  6E23               	movwf	wl_module_tx_config@tx_addr+4,c
+   528  00012C  C023  F022         	movff	wl_module_tx_config@tx_addr+4,wl_module_tx_config@tx_addr+3
+   529  000130  C022  F021         	movff	wl_module_tx_config@tx_addr+3,wl_module_tx_config@tx_addr+2
+   530  000134  C021  F020         	movff	wl_module_tx_config@tx_addr+2,wl_module_tx_config@tx_addr+1
+   531  000138  C020  F01F         	movff	wl_module_tx_config@tx_addr+1,wl_module_tx_config@tx_addr
+   532                           
+   533                           ;wl_module.c: 132: wl_module_set_TADDR(tx_addr);
+   534  00013C  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   535  00013E  6E1C               	movwf	wl_module_set_TADDR@adr,c
+   536  000140  0E00               	movlw	high wl_module_tx_config@tx_addr
+   537  000142  6E1D               	movwf	wl_module_set_TADDR@adr+1,c
+   538  000144  EC1A  F002         	call	_wl_module_set_TADDR	;wreg free
+   539                           
+   540                           ;wl_module.c: 133: wl_module_set_RADDR(tx_addr);
+   541  000148  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   542  00014A  6E1C               	movwf	wl_module_set_RADDR@adr,c
+   543  00014C  0E00               	movlw	high wl_module_tx_config@tx_addr
+   544  00014E  6E1D               	movwf	wl_module_set_RADDR@adr+1,c
+   545  000150  ECEA  F001         	call	_wl_module_set_RADDR	;wreg free
+   546                           
+   547                           ;wl_module.c: 134: break;
+   548  000154  D06F               	goto	l1625
+   549  000156                     l1597:
+   550                           
+   551                           ;wl_module.c: 136: tx_addr[1] = tx_addr[2] = tx_addr[3] = tx_addr[4] = 0xC2;
+   552  000156  0EC2               	movlw	194
+   553  000158  6E23               	movwf	wl_module_tx_config@tx_addr+4,c
+   554  00015A  C023  F022         	movff	wl_module_tx_config@tx_addr+4,wl_module_tx_config@tx_addr+3
+   555  00015E  C022  F021         	movff	wl_module_tx_config@tx_addr+3,wl_module_tx_config@tx_addr+2
+   556  000162  C021  F020         	movff	wl_module_tx_config@tx_addr+2,wl_module_tx_config@tx_addr+1
+   557                           
+   558                           ;wl_module.c: 137: tx_addr[0] = 0xC3;
+   559  000166  0EC3               	movlw	195
+   560  000168  6E1F               	movwf	wl_module_tx_config@tx_addr,c
+   561                           
+   562                           ;wl_module.c: 138: wl_module_set_TADDR(tx_addr);
+   563  00016A  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   564  00016C  6E1C               	movwf	wl_module_set_TADDR@adr,c
+   565  00016E  0E00               	movlw	high wl_module_tx_config@tx_addr
+   566  000170  6E1D               	movwf	wl_module_set_TADDR@adr+1,c
+   567  000172  EC1A  F002         	call	_wl_module_set_TADDR	;wreg free
+   568                           
+   569                           ;wl_module.c: 139: wl_module_set_RADDR(tx_addr);
+   570  000176  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   571  000178  6E1C               	movwf	wl_module_set_RADDR@adr,c
+   572  00017A  0E00               	movlw	high wl_module_tx_config@tx_addr
+   573  00017C  6E1D               	movwf	wl_module_set_RADDR@adr+1,c
+   574  00017E  ECEA  F001         	call	_wl_module_set_RADDR	;wreg free
+   575                           
+   576                           ;wl_module.c: 140: break;
+   577  000182  D058               	goto	l1625
+   578  000184                     l1603:
+   579                           
+   580                           ;wl_module.c: 142: tx_addr[1] = tx_addr[2] = tx_addr[3] = tx_addr[4] = 0xC2;
+   581  000184  0EC2               	movlw	194
+   582  000186  6E23               	movwf	wl_module_tx_config@tx_addr+4,c
+   583  000188  C023  F022         	movff	wl_module_tx_config@tx_addr+4,wl_module_tx_config@tx_addr+3
+   584  00018C  C022  F021         	movff	wl_module_tx_config@tx_addr+3,wl_module_tx_config@tx_addr+2
+   585  000190  C021  F020         	movff	wl_module_tx_config@tx_addr+2,wl_module_tx_config@tx_addr+1
+   586                           
+   587                           ;wl_module.c: 143: tx_addr[0] = 0xC4;
+   588  000194  0EC4               	movlw	196
+   589  000196  6E1F               	movwf	wl_module_tx_config@tx_addr,c
+   590                           
+   591                           ;wl_module.c: 144: wl_module_set_TADDR(tx_addr);
+   592  000198  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   593  00019A  6E1C               	movwf	wl_module_set_TADDR@adr,c
+   594  00019C  0E00               	movlw	high wl_module_tx_config@tx_addr
+   595  00019E  6E1D               	movwf	wl_module_set_TADDR@adr+1,c
+   596  0001A0  EC1A  F002         	call	_wl_module_set_TADDR	;wreg free
+   597                           
+   598                           ;wl_module.c: 145: wl_module_set_RADDR(tx_addr);
+   599  0001A4  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   600  0001A6  6E1C               	movwf	wl_module_set_RADDR@adr,c
+   601  0001A8  0E00               	movlw	high wl_module_tx_config@tx_addr
+   602  0001AA  6E1D               	movwf	wl_module_set_RADDR@adr+1,c
+   603  0001AC  ECEA  F001         	call	_wl_module_set_RADDR	;wreg free
+   604                           
+   605                           ;wl_module.c: 146: break;
+   606  0001B0  D041               	goto	l1625
+   607  0001B2                     l1609:
+   608                           
+   609                           ;wl_module.c: 148: tx_addr[1] = tx_addr[2] = tx_addr[3] = tx_addr[4] = 0xC2;
+   610  0001B2  0EC2               	movlw	194
+   611  0001B4  6E23               	movwf	wl_module_tx_config@tx_addr+4,c
+   612  0001B6  C023  F022         	movff	wl_module_tx_config@tx_addr+4,wl_module_tx_config@tx_addr+3
+   613  0001BA  C022  F021         	movff	wl_module_tx_config@tx_addr+3,wl_module_tx_config@tx_addr+2
+   614  0001BE  C021  F020         	movff	wl_module_tx_config@tx_addr+2,wl_module_tx_config@tx_addr+1
+   615                           
+   616                           ;wl_module.c: 149: tx_addr[0] = 0xC5;
+   617  0001C2  0EC5               	movlw	197
+   618  0001C4  6E1F               	movwf	wl_module_tx_config@tx_addr,c
+   619                           
+   620                           ;wl_module.c: 150: wl_module_set_TADDR(tx_addr);
+   621  0001C6  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   622  0001C8  6E1C               	movwf	wl_module_set_TADDR@adr,c
+   623  0001CA  0E00               	movlw	high wl_module_tx_config@tx_addr
+   624  0001CC  6E1D               	movwf	wl_module_set_TADDR@adr+1,c
+   625  0001CE  EC1A  F002         	call	_wl_module_set_TADDR	;wreg free
+   626                           
+   627                           ;wl_module.c: 151: wl_module_set_RADDR(tx_addr);
+   628  0001D2  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   629  0001D4  6E1C               	movwf	wl_module_set_RADDR@adr,c
+   630  0001D6  0E00               	movlw	high wl_module_tx_config@tx_addr
+   631  0001D8  6E1D               	movwf	wl_module_set_RADDR@adr+1,c
+   632  0001DA  ECEA  F001         	call	_wl_module_set_RADDR	;wreg free
+   633                           
+   634                           ;wl_module.c: 152: break;
+   635  0001DE  D02A               	goto	l1625
+   636  0001E0                     l1615:
+   637                           
+   638                           ;wl_module.c: 154: tx_addr[1] = tx_addr[2] = tx_addr[3] = tx_addr[4] = 0xC2;
+   639  0001E0  0EC2               	movlw	194
+   640  0001E2  6E23               	movwf	wl_module_tx_config@tx_addr+4,c
+   641  0001E4  C023  F022         	movff	wl_module_tx_config@tx_addr+4,wl_module_tx_config@tx_addr+3
+   642  0001E8  C022  F021         	movff	wl_module_tx_config@tx_addr+3,wl_module_tx_config@tx_addr+2
+   643  0001EC  C021  F020         	movff	wl_module_tx_config@tx_addr+2,wl_module_tx_config@tx_addr+1
+   644                           
+   645                           ;wl_module.c: 155: tx_addr[0] = 0xC6;
+   646  0001F0  0EC6               	movlw	198
+   647  0001F2  6E1F               	movwf	wl_module_tx_config@tx_addr,c
+   648                           
+   649                           ;wl_module.c: 156: wl_module_set_TADDR(tx_addr);
+   650  0001F4  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   651  0001F6  6E1C               	movwf	wl_module_set_TADDR@adr,c
+   652  0001F8  0E00               	movlw	high wl_module_tx_config@tx_addr
+   653  0001FA  6E1D               	movwf	wl_module_set_TADDR@adr+1,c
+   654  0001FC  EC1A  F002         	call	_wl_module_set_TADDR	;wreg free
+   655                           
+   656                           ;wl_module.c: 157: wl_module_set_RADDR(tx_addr);
+   657  000200  0E1F               	movlw	low wl_module_tx_config@tx_addr
+   658  000202  6E1C               	movwf	wl_module_set_RADDR@adr,c
+   659  000204  0E00               	movlw	high wl_module_tx_config@tx_addr
+   660  000206  6E1D               	movwf	wl_module_set_RADDR@adr+1,c
+   661  000208  ECEA  F001         	call	_wl_module_set_RADDR	;wreg free
+   662                           
+   663                           ;wl_module.c: 159: }
+   664                           
+   665                           ;wl_module.c: 158: break;
+   666  00020C  D013               	goto	l1625
+   667  00020E                     l1623:
+   668  00020E  501E               	movf	wl_module_tx_config@tx_nr,w,c
+   669                           
+   670                           ; Switch size 1, requested type "space"
+   671                           ; Number of cases is 6, Range of values is 0 to 5
+   672                           ; switch strategies available:
+   673                           ; Name         Instructions Cycles
+   674                           ; simple_byte           19    10 (average)
+   675                           ;	Chosen strategy is simple_byte
+   676  000210  0A00               	xorlw	0	; case 0
+   677  000212  B4D8               	btfsc	status,2,c
+   678  000214  D772               	goto	l1585
+   679  000216  0A01               	xorlw	1	; case 1
+   680  000218  B4D8               	btfsc	status,2,c
+   681  00021A  D786               	goto	l1591
+   682  00021C  0A03               	xorlw	3	; case 2
+   683  00021E  B4D8               	btfsc	status,2,c
+   684  000220  D79A               	goto	l1597
+   685  000222  0A01               	xorlw	1	; case 3
+   686  000224  B4D8               	btfsc	status,2,c
+   687  000226  D7AE               	goto	l1603
+   688  000228  0A07               	xorlw	7	; case 4
+   689  00022A  B4D8               	btfsc	status,2,c
+   690  00022C  D7C2               	goto	l1609
+   691  00022E  0A01               	xorlw	1	; case 5
+   692  000230  B4D8               	btfsc	status,2,c
+   693  000232  D7D6               	goto	l1615
+   694  000234                     l1625:
+   695                           
+   696                           ;wl_module.c: 161: PTX =0;
+   697  000234  0E00               	movlw	0
+   698  000236  6E33               	movwf	_PTX,c	;volatile
+   699                           
+   700                           ;wl_module.c: 162: wl_module_config_register(0x00, ( (1<<6) | (1<<3) | (1<<2) ) | ( (1<<
+      +                          1) | (0<<0) ) );
+   701  000238  0E4E               	movlw	78
+   702  00023A  6E14               	movwf	wl_module_config_register@value,c
+   703  00023C  0E00               	movlw	0
+   704  00023E  ECF6  F001         	call	_wl_module_config_register
+   705  000242  0012               	return		;funcret
+   706  000244                     __end_of_wl_module_tx_config:
+   707                           	opt stack 0
+   708                           tblptru	equ	0xFF8
+   709                           prodh	equ	0xFF4
+   710                           prodl	equ	0xFF3
+   711                           intcon	equ	0xFF2
+   712                           postinc0	equ	0xFEE
+   713                           wreg	equ	0xFE8
+   714                           indf2	equ	0xFDF
+   715                           fsr2h	equ	0xFDA
+   716                           fsr2l	equ	0xFD9
+   717                           status	equ	0xFD8
+   718                           
+   719 ;; *************** function _wl_module_set_TADDR *****************
+   720 ;; Defined at:
+   721 ;;		line 300 in file "wl_module.c"
+   722 ;; Parameters:    Size  Location     Type
+   723 ;;  adr             2   27[COMRAM] PTR unsigned char 
+   724 ;;		 -> wl_module_tx_config@tx_addr(5), 
+   725 ;; Auto vars:     Size  Location     Type
+   726 ;;		None
+   727 ;; Return value:  Size  Location     Type
+   728 ;;                  1    wreg      void 
+   729 ;; Registers used:
+   730 ;;		wreg, fsr2l, fsr2h, status,2, status,0, cstack
+   731 ;; Tracked objects:
+   732 ;;		On entry : 0/0
+   733 ;;		On exit  : 0/0
+   734 ;;		Unchanged: 0/0
+   735 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   736 ;;      Params:         2       0       0       0       0       0       0       0       0
+   737 ;;      Locals:         0       0       0       0       0       0       0       0       0
+   738 ;;      Temps:          0       0       0       0       0       0       0       0       0
+   739 ;;      Totals:         2       0       0       0       0       0       0       0       0
+   740 ;;Total ram usage:        2 bytes
+   741 ;; Hardware stack levels used:    1
+   742 ;; Hardware stack levels required when called:    5
+   743 ;; This function calls:
+   744 ;;		_wl_module_write_register
+   745 ;; This function is called by:
+   746 ;;		_wl_module_tx_config
+   747 ;; This function uses a non-reentrant model
+   748 ;;
+   749                           
+   750                           	psect	text2
+   751  000434                     __ptext2:
+   752                           	opt stack 0
+   753  000434                     _wl_module_set_TADDR:
+   754                           	opt stack 24
+   755                           
+   756                           ;wl_module.c: 303: wl_module_write_register(0x10, adr,5);
+   757                           
+   758                           ;incstack = 0
+   759  000434  C01C  F018         	movff	wl_module_set_TADDR@adr,wl_module_write_register@value
+   760  000438  C01D  F019         	movff	wl_module_set_TADDR@adr+1,wl_module_write_register@value+1
+   761  00043C  0E05               	movlw	5
+   762  00043E  6E1A               	movwf	wl_module_write_register@len,c
+   763  000440  0E10               	movlw	16
+   764  000442  ECAB  F001         	call	_wl_module_write_register
+   765  000446  0012               	return		;funcret
+   766  000448                     __end_of_wl_module_set_TADDR:
+   767                           	opt stack 0
+   768                           tblptru	equ	0xFF8
+   769                           prodh	equ	0xFF4
+   770                           prodl	equ	0xFF3
+   771                           intcon	equ	0xFF2
+   772                           postinc0	equ	0xFEE
+   773                           wreg	equ	0xFE8
+   774                           indf2	equ	0xFDF
+   775                           fsr2h	equ	0xFDA
+   776                           fsr2l	equ	0xFD9
+   777                           status	equ	0xFD8
+   778                           
+   779 ;; *************** function _wl_module_set_RADDR *****************
+   780 ;; Defined at:
+   781 ;;		line 292 in file "wl_module.c"
+   782 ;; Parameters:    Size  Location     Type
+   783 ;;  adr             2   27[COMRAM] PTR unsigned char 
+   784 ;;		 -> wl_module_tx_config@tx_addr(5), 
+   785 ;; Auto vars:     Size  Location     Type
+   786 ;;		None
+   787 ;; Return value:  Size  Location     Type
+   788 ;;                  1    wreg      void 
+   789 ;; Registers used:
+   790 ;;		wreg, fsr2l, fsr2h, status,2, status,0, cstack
+   791 ;; Tracked objects:
+   792 ;;		On entry : 0/0
+   793 ;;		On exit  : 0/0
+   794 ;;		Unchanged: 0/0
+   795 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   796 ;;      Params:         2       0       0       0       0       0       0       0       0
+   797 ;;      Locals:         0       0       0       0       0       0       0       0       0
+   798 ;;      Temps:          0       0       0       0       0       0       0       0       0
+   799 ;;      Totals:         2       0       0       0       0       0       0       0       0
+   800 ;;Total ram usage:        2 bytes
+   801 ;; Hardware stack levels used:    1
+   802 ;; Hardware stack levels required when called:    5
+   803 ;; This function calls:
+   804 ;;		_wl_module_write_register
+   805 ;; This function is called by:
+   806 ;;		_wl_module_tx_config
+   807 ;; This function uses a non-reentrant model
+   808 ;;
+   809                           
+   810                           	psect	text3
+   811  0003D4                     __ptext3:
+   812                           	opt stack 0
+   813  0003D4                     _wl_module_set_RADDR:
+   814                           	opt stack 24
+   815                           
+   816                           ;wl_module.c: 295: LATBbits.LATB3 = 0;;
+   817                           
+   818                           ;incstack = 0
+   819  0003D4  968A               	bcf	3978,3,c	;volatile
+   820                           
+   821                           ;wl_module.c: 296: wl_module_write_register(0x0A,adr,5);
+   822  0003D6  C01C  F018         	movff	wl_module_set_RADDR@adr,wl_module_write_register@value
+   823  0003DA  C01D  F019         	movff	wl_module_set_RADDR@adr+1,wl_module_write_register@value+1
+   824  0003DE  0E05               	movlw	5
+   825  0003E0  6E1A               	movwf	wl_module_write_register@len,c
+   826  0003E2  0E0A               	movlw	10
+   827  0003E4  ECAB  F001         	call	_wl_module_write_register
+   828                           
+   829                           ;wl_module.c: 297: LATBbits.LATB3 = 1;;
+   830  0003E8  868A               	bsf	3978,3,c	;volatile
+   831  0003EA  0012               	return		;funcret
+   832  0003EC                     __end_of_wl_module_set_RADDR:
+   833                           	opt stack 0
+   834                           tblptru	equ	0xFF8
+   835                           prodh	equ	0xFF4
+   836                           prodl	equ	0xFF3
+   837                           intcon	equ	0xFF2
+   838                           postinc0	equ	0xFEE
+   839                           wreg	equ	0xFE8
+   840                           indf2	equ	0xFDF
+   841                           fsr2h	equ	0xFDA
+   842                           fsr2l	equ	0xFD9
+   843                           status	equ	0xFD8
+   844                           
+   845 ;; *************** function _wl_module_write_register *****************
+   846 ;; Defined at:
+   847 ;;		line 436 in file "wl_module.c"
+   848 ;; Parameters:    Size  Location     Type
+   849 ;;  reg             1    wreg     unsigned char 
+   850 ;;  value           2   23[COMRAM] PTR unsigned char 
+   851 ;;		 -> wl_module_set_rx_pw@payloadwidth(1), wl_module_power_down@config(1), wl_module_set_as_tx@config(1), wl_module_tx
+      +_config@tx_addr(5), 
+   852 ;;		 -> wl_module_rx_config@data(5), 
+   853 ;;  len             1   25[COMRAM] unsigned char 
+   854 ;; Auto vars:     Size  Location     Type
+   855 ;;  reg             1   26[COMRAM] unsigned char 
+   856 ;; Return value:  Size  Location     Type
+   857 ;;                  1    wreg      void 
+   858 ;; Registers used:
+   859 ;;		wreg, fsr2l, fsr2h, status,2, status,0, cstack
+   860 ;; Tracked objects:
+   861 ;;		On entry : 0/0
+   862 ;;		On exit  : 0/0
+   863 ;;		Unchanged: 0/0
+   864 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   865 ;;      Params:         3       0       0       0       0       0       0       0       0
+   866 ;;      Locals:         1       0       0       0       0       0       0       0       0
+   867 ;;      Temps:          0       0       0       0       0       0       0       0       0
+   868 ;;      Totals:         4       0       0       0       0       0       0       0       0
+   869 ;;Total ram usage:        4 bytes
+   870 ;; Hardware stack levels used:    1
+   871 ;; Hardware stack levels required when called:    4
+   872 ;; This function calls:
+   873 ;;		_spi_fast_shift
+   874 ;;		_spi_transmit_sync
+   875 ;; This function is called by:
+   876 ;;		_wl_module_set_RADDR
+   877 ;;		_wl_module_set_TADDR
+   878 ;;		_wl_module_set_tx_addr
+   879 ;;		_wl_module_set_as_tx
+   880 ;;		_wl_module_power_down
+   881 ;;		_wl_module_set_rx_addr
+   882 ;;		_wl_module_set_rx_pw
+   883 ;; This function uses a non-reentrant model
+   884 ;;
+   885                           
+   886                           	psect	text4
+   887  000356                     __ptext4:
+   888                           	opt stack 0
+   889  000356                     _wl_module_write_register:
+   890                           	opt stack 24
+   891                           
+   892                           ;incstack = 0
+   893                           ;wl_module_write_register@reg stored from wreg
+   894  000356  6E1B               	movwf	wl_module_write_register@reg,c
+   895                           
+   896                           ;wl_module.c: 439: LATBbits.LATB4 = 0;;
+   897  000358  988A               	bcf	3978,4,c	;volatile
+   898                           
+   899                           ;wl_module.c: 440: spi_fast_shift(0x20 | (0x1F & reg));
+   900  00035A  501B               	movf	wl_module_write_register@reg,w,c
+   901  00035C  0B1F               	andlw	31
+   902  00035E  0920               	iorlw	32
+   903  000360  EC24  F002         	call	_spi_fast_shift
+   904                           
+   905                           ;wl_module.c: 441: spi_transmit_sync(value,len);
+   906  000364  C018  F013         	movff	wl_module_write_register@value,spi_transmit_sync@data
+   907  000368  C019  F014         	movff	wl_module_write_register@value+1,spi_transmit_sync@data+1
+   908  00036C  C01A  F015         	movff	wl_module_write_register@len,spi_transmit_sync@length
+   909  000370  6A16               	clrf	spi_transmit_sync@length+1,c
+   910  000372  EC95  F001         	call	_spi_transmit_sync	;wreg free
+   911                           
+   912                           ;wl_module.c: 442: LATBbits.LATB4 = 1;;
+   913  000376  888A               	bsf	3978,4,c	;volatile
+   914  000378  0012               	return		;funcret
+   915  00037A                     __end_of_wl_module_write_register:
+   916                           	opt stack 0
+   917                           tblptru	equ	0xFF8
+   918                           prodh	equ	0xFF4
+   919                           prodl	equ	0xFF3
+   920                           intcon	equ	0xFF2
+   921                           postinc0	equ	0xFEE
+   922                           wreg	equ	0xFE8
+   923                           indf2	equ	0xFDF
+   924                           fsr2h	equ	0xFDA
+   925                           fsr2l	equ	0xFD9
+   926                           status	equ	0xFD8
+   927                           
+   928 ;; *************** function _wl_module_send *****************
+   929 ;; Defined at:
+   930 ;;		line 446 in file "wl_module.c"
+   931 ;; Parameters:    Size  Location     Type
+   932 ;;  value           2   23[COMRAM] PTR unsigned char 
+   933 ;;		 -> main@payload(32), 
+   934 ;;  len             1   25[COMRAM] unsigned char 
+   935 ;; Auto vars:     Size  Location     Type
+   936 ;;		None
+   937 ;; Return value:  Size  Location     Type
+   938 ;;                  1    wreg      void 
+   939 ;; Registers used:
+   940 ;;		wreg, fsr2l, fsr2h, status,2, status,0, cstack
+   941 ;; Tracked objects:
+   942 ;;		On entry : 0/0
+   943 ;;		On exit  : 0/0
+   944 ;;		Unchanged: 0/0
+   945 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   946 ;;      Params:         3       0       0       0       0       0       0       0       0
+   947 ;;      Locals:         0       0       0       0       0       0       0       0       0
+   948 ;;      Temps:          0       0       0       0       0       0       0       0       0
+   949 ;;      Totals:         3       0       0       0       0       0       0       0       0
+   950 ;;Total ram usage:        3 bytes
+   951 ;; Hardware stack levels used:    1
+   952 ;; Hardware stack levels required when called:    5
+   953 ;; This function calls:
+   954 ;;		_spi_fast_shift
+   955 ;;		_spi_transmit_sync
+   956 ;;		_wl_module_config_register
+   957 ;; This function is called by:
+   958 ;;		_main
+   959 ;; This function uses a non-reentrant model
+   960 ;;
+   961                           
+   962                           	psect	text5
+   963  0002E0                     __ptext5:
+   964                           	opt stack 0
+   965  0002E0                     _wl_module_send:
+   966                           	opt stack 25
+   967  0002E0                     l1631:
+   968  0002E0  5033               	movf	_PTX,w,c	;volatile
+   969  0002E2  A4D8               	btfss	status,2,c
+   970  0002E4  D7FD               	goto	l1631
+   971                           
+   972                           ;wl_module.c: 452: LATBbits.LATB3 = 0;;
+   973  0002E6  968A               	bcf	3978,3,c	;volatile
+   974                           
+   975                           ;wl_module.c: 454: PTX = 1;
+   976  0002E8  0E01               	movlw	1
+   977  0002EA  6E33               	movwf	_PTX,c	;volatile
+   978                           
+   979                           ;wl_module.c: 455: wl_module_config_register(0x00, ( (1<<6) | (1<<3) | (1<<2) ) | ( (1<<
+      +                          1) | (0<<0) ) );
+   980  0002EC  0E4E               	movlw	78
+   981  0002EE  6E14               	movwf	wl_module_config_register@value,c
+   982  0002F0  0E00               	movlw	0
+   983  0002F2  ECF6  F001         	call	_wl_module_config_register
+   984                           
+   985                           ;wl_module.c: 457: LATBbits.LATB4 = 0;;
+   986  0002F6  988A               	bcf	3978,4,c	;volatile
+   987                           
+   988                           ;wl_module.c: 458: spi_fast_shift( 0xE1 );
+   989  0002F8  0EE1               	movlw	225
+   990  0002FA  EC24  F002         	call	_spi_fast_shift
+   991                           
+   992                           ;wl_module.c: 459: LATBbits.LATB4 = 1;;
+   993  0002FE  888A               	bsf	3978,4,c	;volatile
+   994                           
+   995                           ;wl_module.c: 461: LATBbits.LATB4 = 0;;
+   996  000300  988A               	bcf	3978,4,c	;volatile
+   997                           
+   998                           ;wl_module.c: 462: spi_fast_shift( 0xA0 );
+   999  000302  0EA0               	movlw	160
+  1000  000304  EC24  F002         	call	_spi_fast_shift
+  1001                           
+  1002                           ;wl_module.c: 463: spi_transmit_sync(value,len);
+  1003  000308  C018  F013         	movff	wl_module_send@value,spi_transmit_sync@data
+  1004  00030C  C019  F014         	movff	wl_module_send@value+1,spi_transmit_sync@data+1
+  1005  000310  C01A  F015         	movff	wl_module_send@len,spi_transmit_sync@length
+  1006  000314  6A16               	clrf	spi_transmit_sync@length+1,c
+  1007  000316  EC95  F001         	call	_spi_transmit_sync	;wreg free
+  1008                           
+  1009                           ;wl_module.c: 464: LATBbits.LATB4 = 1;;
+  1010  00031A  888A               	bsf	3978,4,c	;volatile
+  1011                           
+  1012                           ;wl_module.c: 466: LATBbits.LATB3 = 1;;
+  1013  00031C  868A               	bsf	3978,3,c	;volatile
+  1014                           
+  1015                           ;wl_module.c: 467: _delay((unsigned long)((10)*(16000000/4000000.0)));
+  1016  00031E  0E0D               	movlw	13
+  1017  000320                     u577:
+  1018  000320  2EE8               	decfsz	wreg,f,c
+  1019  000322  D7FE               	bra	u577
+  1020  000324  F000               	nop	
+  1021                           
+  1022                           ;wl_module.c: 468: LATBbits.LATB3 = 0;;
+  1023  000326  968A               	bcf	3978,3,c	;volatile
+  1024  000328  0012               	return		;funcret
+  1025  00032A                     __end_of_wl_module_send:
+  1026                           	opt stack 0
+  1027                           tblptru	equ	0xFF8
+  1028                           prodh	equ	0xFF4
+  1029                           prodl	equ	0xFF3
+  1030                           intcon	equ	0xFF2
+  1031                           postinc0	equ	0xFEE
+  1032                           wreg	equ	0xFE8
+  1033                           indf2	equ	0xFDF
+  1034                           fsr2h	equ	0xFDA
+  1035                           fsr2l	equ	0xFD9
+  1036                           status	equ	0xFD8
+  1037                           
+  1038 ;; *************** function _wl_module_config_register *****************
+  1039 ;; Defined at:
+  1040 ;;		line 418 in file "wl_module.c"
+  1041 ;; Parameters:    Size  Location     Type
+  1042 ;;  reg             1    wreg     unsigned char 
+  1043 ;;  value           1   19[COMRAM] unsigned char 
+  1044 ;; Auto vars:     Size  Location     Type
+  1045 ;;  reg             1   20[COMRAM] unsigned char 
+  1046 ;; Return value:  Size  Location     Type
+  1047 ;;                  1    wreg      void 
+  1048 ;; Registers used:
+  1049 ;;		wreg, status,2, status,0, cstack
+  1050 ;; Tracked objects:
+  1051 ;;		On entry : 0/0
+  1052 ;;		On exit  : 0/0
+  1053 ;;		Unchanged: 0/0
+  1054 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1055 ;;      Params:         1       0       0       0       0       0       0       0       0
+  1056 ;;      Locals:         1       0       0       0       0       0       0       0       0
+  1057 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1058 ;;      Totals:         2       0       0       0       0       0       0       0       0
+  1059 ;;Total ram usage:        2 bytes
+  1060 ;; Hardware stack levels used:    1
+  1061 ;; Hardware stack levels required when called:    4
+  1062 ;; This function calls:
+  1063 ;;		_spi_fast_shift
+  1064 ;; This function is called by:
+  1065 ;;		_wl_module_tx_config
+  1066 ;;		_wl_module_send
+  1067 ;;		_wl_module_config
+  1068 ;;		_wl_module_rx_config
+  1069 ;;		_wl_module_get_data
+  1070 ;; This function uses a non-reentrant model
+  1071 ;;
+  1072                           
+  1073                           	psect	text6
+  1074  0003EC                     __ptext6:
+  1075                           	opt stack 0
+  1076  0003EC                     _wl_module_config_register:
+  1077                           	opt stack 25
+  1078                           
+  1079                           ;incstack = 0
+  1080                           ;wl_module_config_register@reg stored from wreg
+  1081  0003EC  6E15               	movwf	wl_module_config_register@reg,c
+  1082                           
+  1083                           ;wl_module.c: 421: LATBbits.LATB4 = 0;;
+  1084  0003EE  988A               	bcf	3978,4,c	;volatile
+  1085                           
+  1086                           ;wl_module.c: 422: spi_fast_shift(0x20 | (0x1F & reg));
+  1087  0003F0  5015               	movf	wl_module_config_register@reg,w,c
+  1088  0003F2  0B1F               	andlw	31
+  1089  0003F4  0920               	iorlw	32
+  1090  0003F6  EC24  F002         	call	_spi_fast_shift
+  1091                           
+  1092                           ;wl_module.c: 423: spi_fast_shift(value);
+  1093  0003FA  5014               	movf	wl_module_config_register@value,w,c
+  1094  0003FC  EC24  F002         	call	_spi_fast_shift
+  1095                           
+  1096                           ;wl_module.c: 424: LATBbits.LATB4 = 1;;
+  1097  000400  888A               	bsf	3978,4,c	;volatile
+  1098  000402  0012               	return		;funcret
+  1099  000404                     __end_of_wl_module_config_register:
+  1100                           	opt stack 0
+  1101                           tblptru	equ	0xFF8
+  1102                           prodh	equ	0xFF4
+  1103                           prodl	equ	0xFF3
+  1104                           intcon	equ	0xFF2
+  1105                           postinc0	equ	0xFEE
+  1106                           wreg	equ	0xFE8
+  1107                           indf2	equ	0xFDF
+  1108                           fsr2h	equ	0xFDA
+  1109                           fsr2l	equ	0xFD9
+  1110                           status	equ	0xFD8
+  1111                           
+  1112 ;; *************** function _spi_fast_shift *****************
+  1113 ;; Defined at:
+  1114 ;;		line 62 in file "spi.c"
+  1115 ;; Parameters:    Size  Location     Type
+  1116 ;;  data            1    wreg     unsigned char 
+  1117 ;; Auto vars:     Size  Location     Type
+  1118 ;;  data            1   18[COMRAM] unsigned char 
+  1119 ;; Return value:  Size  Location     Type
+  1120 ;;                  1    wreg      unsigned char 
+  1121 ;; Registers used:
+  1122 ;;		wreg, status,2
+  1123 ;; Tracked objects:
+  1124 ;;		On entry : 0/0
+  1125 ;;		On exit  : 0/0
+  1126 ;;		Unchanged: 0/0
+  1127 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1128 ;;      Params:         0       0       0       0       0       0       0       0       0
+  1129 ;;      Locals:         1       0       0       0       0       0       0       0       0
+  1130 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1131 ;;      Totals:         1       0       0       0       0       0       0       0       0
+  1132 ;;Total ram usage:        1 bytes
+  1133 ;; Hardware stack levels used:    1
+  1134 ;; Hardware stack levels required when called:    3
+  1135 ;; This function calls:
+  1136 ;;		Nothing
+  1137 ;; This function is called by:
+  1138 ;;		_wl_module_config_register
+  1139 ;;		_wl_module_write_register
+  1140 ;;		_wl_module_send
+  1141 ;;		_wl_module_data_ready
+  1142 ;;		_wl_module_get_one_byte
+  1143 ;;		_wl_module_get_data
+  1144 ;;		_wl_module_read_register
+  1145 ;; This function uses a non-reentrant model
+  1146 ;;
+  1147                           
+  1148                           	psect	text7
+  1149  000448                     __ptext7:
+  1150                           	opt stack 0
+  1151  000448                     _spi_fast_shift:
+  1152                           	opt stack 24
+  1153                           
+  1154                           ;incstack = 0
+  1155                           ;spi_fast_shift@data stored from wreg
+  1156  000448  6E13               	movwf	spi_fast_shift@data,c
+  1157                           
+  1158                           ;spi.c: 63: SSP1BUF = data;
+  1159  00044A  C013  FFC9         	movff	spi_fast_shift@data,4041	;volatile
+  1160  00044E                     l40:
+  1161  00044E  A69E               	btfss	3998,3,c	;volatile
+  1162  000450  D7FE               	goto	l40
+  1163                           
+  1164                           ;spi.c: 65: PIR1bits.SSP1IF = 0;
+  1165  000452  969E               	bcf	3998,3,c	;volatile
+  1166                           
+  1167                           ;spi.c: 66: return SSP1BUF;
+  1168  000454  50C9               	movf	4041,w,c	;volatile
+  1169  000456  0012               	return		;funcret
+  1170  000458                     __end_of_spi_fast_shift:
+  1171                           	opt stack 0
+  1172                           tblptru	equ	0xFF8
+  1173                           prodh	equ	0xFF4
+  1174                           prodl	equ	0xFF3
+  1175                           intcon	equ	0xFF2
+  1176                           postinc0	equ	0xFEE
+  1177                           wreg	equ	0xFE8
+  1178                           indf2	equ	0xFDF
+  1179                           fsr2h	equ	0xFDA
+  1180                           fsr2l	equ	0xFD9
+  1181                           status	equ	0xFD8
+  1182                           
+  1183 ;; *************** function _spi_transmit_sync *****************
+  1184 ;; Defined at:
+  1185 ;;		line 38 in file "spi.c"
+  1186 ;; Parameters:    Size  Location     Type
+  1187 ;;  data            2   18[COMRAM] PTR unsigned char 
+  1188 ;;		 -> main@payload(32), wl_module_set_rx_pw@payloadwidth(1), wl_module_power_down@config(1), wl_module_set_as_tx@confi
+      +g(1), 
+  1189 ;;		 -> wl_module_tx_config@tx_addr(5), wl_module_rx_config@data(5), 
+  1190 ;;  length          2   20[COMRAM] unsigned int 
+  1191 ;; Auto vars:     Size  Location     Type
+  1192 ;;  tmp             1   22[COMRAM] unsigned char 
+  1193 ;; Return value:  Size  Location     Type
+  1194 ;;                  1    wreg      void 
+  1195 ;; Registers used:
+  1196 ;;		wreg, fsr2l, fsr2h, status,2, status,0
+  1197 ;; Tracked objects:
+  1198 ;;		On entry : 0/0
+  1199 ;;		On exit  : 0/0
+  1200 ;;		Unchanged: 0/0
+  1201 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1202 ;;      Params:         4       0       0       0       0       0       0       0       0
+  1203 ;;      Locals:         1       0       0       0       0       0       0       0       0
+  1204 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1205 ;;      Totals:         5       0       0       0       0       0       0       0       0
+  1206 ;;Total ram usage:        5 bytes
+  1207 ;; Hardware stack levels used:    1
+  1208 ;; Hardware stack levels required when called:    3
+  1209 ;; This function calls:
+  1210 ;;		Nothing
+  1211 ;; This function is called by:
+  1212 ;;		_wl_module_write_register
+  1213 ;;		_wl_module_send
+  1214 ;; This function uses a non-reentrant model
+  1215 ;;
+  1216                           
+  1217                           	psect	text8
+  1218  00032A                     __ptext8:
+  1219                           	opt stack 0
+  1220  00032A                     _spi_transmit_sync:
+  1221                           	opt stack 24
+  1222                           
+  1223                           ;spi.c: 39: unsigned char tmp;
+  1224                           ;spi.c: 40: while(length){
+  1225                           
+  1226                           ;incstack = 0
+  1227  00032A  D010               	goto	l1549
+  1228  00032C                     l1545:
+  1229                           
+  1230                           ;spi.c: 41: SSP1BUF = *data;
+  1231  00032C  C013  FFD9         	movff	spi_transmit_sync@data,fsr2l
+  1232  000330  C014  FFDA         	movff	spi_transmit_sync@data+1,fsr2h
+  1233  000334  50DF               	movf	indf2,w,c
+  1234  000336  6EC9               	movwf	4041,c	;volatile
+  1235  000338                     l24:
+  1236  000338  A69E               	btfss	3998,3,c	;volatile
+  1237  00033A  D7FE               	goto	l24
+  1238                           
+  1239                           ;spi.c: 43: PIR1bits.SSP1IF = 0;
+  1240  00033C  969E               	bcf	3998,3,c	;volatile
+  1241                           
+  1242                           ;spi.c: 44: tmp = SSP1BUF;
+  1243  00033E  CFC9 F017          	movff	4041,spi_transmit_sync@tmp	;volatile
+  1244                           
+  1245                           ;spi.c: 45: length--;
+  1246  000342  0615               	decf	spi_transmit_sync@length,f,c
+  1247  000344  A0D8               	btfss	status,0,c
+  1248  000346  0616               	decf	spi_transmit_sync@length+1,f,c
+  1249                           
+  1250                           ;spi.c: 46: data++;
+  1251  000348  4A13               	infsnz	spi_transmit_sync@data,f,c
+  1252  00034A  2A14               	incf	spi_transmit_sync@data+1,f,c
+  1253  00034C                     l1549:
+  1254  00034C  5015               	movf	spi_transmit_sync@length,w,c
+  1255  00034E  1016               	iorwf	spi_transmit_sync@length+1,w,c
+  1256  000350  B4D8               	btfsc	status,2,c
+  1257  000352  0012               	return	
+  1258  000354  D7EB               	goto	l1545
+  1259  000356                     __end_of_spi_transmit_sync:
+  1260                           	opt stack 0
+  1261                           tblptru	equ	0xFF8
+  1262                           prodh	equ	0xFF4
+  1263                           prodl	equ	0xFF3
+  1264                           intcon	equ	0xFF2
+  1265                           postinc0	equ	0xFEE
+  1266                           wreg	equ	0xFE8
+  1267                           indf2	equ	0xFDF
+  1268                           fsr2h	equ	0xFDA
+  1269                           fsr2l	equ	0xFD9
+  1270                           status	equ	0xFD8
+  1271                           
+  1272 ;; *************** function _wl_module_init *****************
+  1273 ;; Defined at:
+  1274 ;;		line 24 in file "wl_module.c"
+  1275 ;; Parameters:    Size  Location     Type
+  1276 ;;		None
+  1277 ;; Auto vars:     Size  Location     Type
+  1278 ;;		None
+  1279 ;; Return value:  Size  Location     Type
+  1280 ;;                  1    wreg      void 
+  1281 ;; Registers used:
+  1282 ;;		cstack
+  1283 ;; Tracked objects:
+  1284 ;;		On entry : 0/0
+  1285 ;;		On exit  : 0/0
+  1286 ;;		Unchanged: 0/0
+  1287 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1288 ;;      Params:         0       0       0       0       0       0       0       0       0
+  1289 ;;      Locals:         0       0       0       0       0       0       0       0       0
+  1290 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1291 ;;      Totals:         0       0       0       0       0       0       0       0       0
+  1292 ;;Total ram usage:        0 bytes
+  1293 ;; Hardware stack levels used:    1
+  1294 ;; Hardware stack levels required when called:    4
+  1295 ;; This function calls:
+  1296 ;;		_spi_init
+  1297 ;; This function is called by:
+  1298 ;;		_main
+  1299 ;; This function uses a non-reentrant model
+  1300 ;;
+  1301                           
+  1302                           	psect	text9
+  1303  000404                     __ptext9:
+  1304                           	opt stack 0
+  1305  000404                     _wl_module_init:
+  1306                           	opt stack 26
+  1307                           
+  1308                           ;wl_module.c: 29: TRISBbits.TRISB4 = 0;
+  1309                           
+  1310                           ;incstack = 0
+  1311  000404  9893               	bcf	3987,4,c	;volatile
+  1312                           
+  1313                           ;wl_module.c: 30: TRISBbits.TRISB3 = 0;
+  1314  000406  9693               	bcf	3987,3,c	;volatile
+  1315                           
+  1316                           ;wl_module.c: 31: LATBbits.LATB3 = 0;;
+  1317  000408  968A               	bcf	3978,3,c	;volatile
+  1318                           
+  1319                           ;wl_module.c: 32: LATBbits.LATB4 = 1;;
+  1320  00040A  888A               	bsf	3978,4,c	;volatile
+  1321                           
+  1322                           ;wl_module.c: 35: ANSELBbits.ANSB2 = 0;
+  1323  00040C  010F               	movlb	15	; () banked
+  1324  00040E  955C               	bcf	92,2,b	;volatile
+  1325                           
+  1326                           ;wl_module.c: 36: TRISBbits.TRISB2 = 1;
+  1327  000410  8493               	bsf	3987,2,c	;volatile
+  1328                           
+  1329                           ;wl_module.c: 37: INTCON2bits.INTEDG2 = 0;
+  1330  000412  98F1               	bcf	intcon2,4,c	;volatile
+  1331                           
+  1332                           ;wl_module.c: 38: INTCON3bits.INT2IE = 1;
+  1333  000414  88F0               	bsf	intcon3,4,c	;volatile
+  1334                           
+  1335                           ; BSR set to: 15
+  1336                           ;wl_module.c: 41: spi_init();
+  1337  000416  ECBD  F001         	call	_spi_init	;wreg free
+  1338  00041A  0012               	return		;funcret
+  1339  00041C                     __end_of_wl_module_init:
+  1340                           	opt stack 0
+  1341                           tblptru	equ	0xFF8
+  1342                           prodh	equ	0xFF4
+  1343                           prodl	equ	0xFF3
+  1344                           intcon	equ	0xFF2
+  1345                           intcon2	equ	0xFF1
+  1346                           intcon3	equ	0xFF0
+  1347                           postinc0	equ	0xFEE
+  1348                           wreg	equ	0xFE8
+  1349                           indf2	equ	0xFDF
+  1350                           fsr2h	equ	0xFDA
+  1351                           fsr2l	equ	0xFD9
+  1352                           status	equ	0xFD8
+  1353                           
+  1354 ;; *************** function _spi_init *****************
+  1355 ;; Defined at:
+  1356 ;;		line 12 in file "spi.c"
+  1357 ;; Parameters:    Size  Location     Type
+  1358 ;;		None
+  1359 ;; Auto vars:     Size  Location     Type
+  1360 ;;		None
+  1361 ;; Return value:  Size  Location     Type
+  1362 ;;                  1    wreg      void 
+  1363 ;; Registers used:
+  1364 ;;		None
+  1365 ;; Tracked objects:
+  1366 ;;		On entry : 0/0
+  1367 ;;		On exit  : 0/0
+  1368 ;;		Unchanged: 0/0
+  1369 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1370 ;;      Params:         0       0       0       0       0       0       0       0       0
+  1371 ;;      Locals:         0       0       0       0       0       0       0       0       0
+  1372 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1373 ;;      Totals:         0       0       0       0       0       0       0       0       0
+  1374 ;;Total ram usage:        0 bytes
+  1375 ;; Hardware stack levels used:    1
+  1376 ;; Hardware stack levels required when called:    3
+  1377 ;; This function calls:
+  1378 ;;		Nothing
+  1379 ;; This function is called by:
+  1380 ;;		_wl_module_init
+  1381 ;; This function uses a non-reentrant model
+  1382 ;;
+  1383                           
+  1384                           	psect	text10
+  1385  00037A                     __ptext10:
+  1386                           	opt stack 0
+  1387  00037A                     _spi_init:
+  1388                           	opt stack 26
+  1389                           
+  1390                           ;spi.c: 14: SSP1CON1bits.SSPEN = 0;
+  1391                           
+  1392                           ;incstack = 0
+  1393  00037A  9AC6               	bcf	4038,5,c	;volatile
+  1394                           
+  1395                           ;spi.c: 16: TRISBbits.TRISB0 = 1;
+  1396  00037C  8093               	bsf	3987,0,c	;volatile
+  1397                           
+  1398                           ;spi.c: 19: ANSELBbits.ANSB0 =0;
+  1399  00037E  010F               	movlb	15	; () banked
+  1400  000380  915C               	bcf	92,0,b	;volatile
+  1401                           
+  1402                           ;spi.c: 21: TRISAbits.TRISA5 = 1;
+  1403  000382  8A92               	bsf	3986,5,c	;volatile
+  1404                           
+  1405                           ;spi.c: 25: TRISCbits.TRISC7 = 0;
+  1406  000384  9E94               	bcf	3988,7,c	;volatile
+  1407                           
+  1408                           ;spi.c: 27: TRISCbits.TRISC6 = 0;
+  1409  000386  9C94               	bcf	3988,6,c	;volatile
+  1410                           
+  1411                           ;spi.c: 31: SSP1CON1bits.CKP = 0;
+  1412  000388  98C6               	bcf	4038,4,c	;volatile
+  1413                           
+  1414                           ;spi.c: 32: SSP1STATbits.CKE = 1;
+  1415  00038A  8CC7               	bsf	4039,6,c	;volatile
+  1416                           
+  1417                           ;spi.c: 33: SSP1STATbits.SMP = 1;
+  1418  00038C  8EC7               	bsf	4039,7,c	;volatile
+  1419                           
+  1420                           ;spi.c: 34: SSP1CON1bits.SSPM = 0;
+  1421  00038E  90C6               	bcf	4038,0,c	;volatile
+  1422  000390  92C6               	bcf	4038,1,c	;volatile
+  1423  000392  94C6               	bcf	4038,2,c	;volatile
+  1424  000394  96C6               	bcf	4038,3,c	;volatile
+  1425                           
+  1426                           ;spi.c: 35: SSP1CON1bits.SSPEN = 1;
+  1427  000396  8AC6               	bsf	4038,5,c	;volatile
+  1428                           
+  1429                           ; BSR set to: 15
+  1430  000398  0012               	return		;funcret
+  1431  00039A                     __end_of_spi_init:
+  1432                           	opt stack 0
+  1433                           tblptru	equ	0xFF8
+  1434                           prodh	equ	0xFF4
+  1435                           prodl	equ	0xFF3
+  1436                           intcon	equ	0xFF2
+  1437                           intcon2	equ	0xFF1
+  1438                           intcon3	equ	0xFF0
+  1439                           postinc0	equ	0xFEE
+  1440                           wreg	equ	0xFE8
+  1441                           indf2	equ	0xFDF
+  1442                           fsr2h	equ	0xFDA
+  1443                           fsr2l	equ	0xFD9
+  1444                           status	equ	0xFD8
+  1445                           
+  1446 ;; *************** function __delay_10ms *****************
+  1447 ;; Defined at:
+  1448 ;;		line 30 in file "main.c"
+  1449 ;; Parameters:    Size  Location     Type
+  1450 ;;  length          2   18[COMRAM] int 
+  1451 ;; Auto vars:     Size  Location     Type
+  1452 ;;		None
+  1453 ;; Return value:  Size  Location     Type
+  1454 ;;                  1    wreg      void 
+  1455 ;; Registers used:
+  1456 ;;		wreg, status,2, status,0
+  1457 ;; Tracked objects:
+  1458 ;;		On entry : 0/0
+  1459 ;;		On exit  : 0/0
+  1460 ;;		Unchanged: 0/0
+  1461 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1462 ;;      Params:         2       0       0       0       0       0       0       0       0
+  1463 ;;      Locals:         0       0       0       0       0       0       0       0       0
+  1464 ;;      Temps:          1       0       0       0       0       0       0       0       0
+  1465 ;;      Totals:         3       0       0       0       0       0       0       0       0
+  1466 ;;Total ram usage:        3 bytes
+  1467 ;; Hardware stack levels used:    1
+  1468 ;; Hardware stack levels required when called:    3
+  1469 ;; This function calls:
+  1470 ;;		Nothing
+  1471 ;; This function is called by:
+  1472 ;;		_main
+  1473 ;; This function uses a non-reentrant model
+  1474 ;;
+  1475                           
+  1476                           	psect	text11
+  1477  00039A                     __ptext11:
+  1478                           	opt stack 0
+  1479  00039A                     __delay_10ms:
+  1480                           	opt stack 27
+  1481                           
+  1482                           ;main.c: 31: while(length){
+  1483                           
+  1484                           ; BSR set to: 15
+  1485                           ;incstack = 0
+  1486  00039A  D00A               	goto	l222
+  1487  00039C                     l1659:
+  1488                           
+  1489                           ;main.c: 32: _delay((unsigned long)((10)*(16000000UL/4000.0)));
+  1490  00039C  0E34               	movlw	52
+  1491  00039E  6E15               	movwf	??__delay_10ms& (0+255),c
+  1492  0003A0  0EF2               	movlw	242
+  1493  0003A2                     u587:
+  1494  0003A2  2EE8               	decfsz	wreg,f,c
+  1495  0003A4  D7FE               	bra	u587
+  1496  0003A6  2E15               	decfsz	??__delay_10ms& (0+255),f,c
+  1497  0003A8  D7FC               	bra	u587
+  1498                           
+  1499                           ;main.c: 33: length--;
+  1500  0003AA  0613               	decf	__delay_10ms@length,f,c
+  1501  0003AC  A0D8               	btfss	status,0,c
+  1502  0003AE  0614               	decf	__delay_10ms@length+1,f,c
+  1503  0003B0                     l222:
+  1504  0003B0  5013               	movf	__delay_10ms@length,w,c
+  1505  0003B2  1014               	iorwf	__delay_10ms@length+1,w,c
+  1506  0003B4  B4D8               	btfsc	status,2,c
+  1507  0003B6  0012               	return	
+  1508  0003B8  D7F1               	goto	l1659
+  1509  0003BA                     __end_of__delay_10ms:
+  1510                           	opt stack 0
+  1511                           tblptru	equ	0xFF8
+  1512                           prodh	equ	0xFF4
+  1513                           prodl	equ	0xFF3
+  1514                           intcon	equ	0xFF2
+  1515                           intcon2	equ	0xFF1
+  1516                           intcon3	equ	0xFF0
+  1517                           postinc0	equ	0xFEE
+  1518                           wreg	equ	0xFE8
+  1519                           indf2	equ	0xFDF
+  1520                           fsr2h	equ	0xFDA
+  1521                           fsr2l	equ	0xFD9
+  1522                           status	equ	0xFD8
+  1523                           
+  1524 ;; *************** function _ISR *****************
+  1525 ;; Defined at:
+  1526 ;;		line 78 in file "main.c"
+  1527 ;; Parameters:    Size  Location     Type
+  1528 ;;		None
+  1529 ;; Auto vars:     Size  Location     Type
+  1530 ;;  status          1   17[COMRAM] unsigned char 
+  1531 ;; Return value:  Size  Location     Type
+  1532 ;;                  1    wreg      void 
+  1533 ;; Registers used:
+  1534 ;;		wreg, status,2, status,0, cstack
+  1535 ;; Tracked objects:
+  1536 ;;		On entry : 0/0
+  1537 ;;		On exit  : 0/0
+  1538 ;;		Unchanged: 0/0
+  1539 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1540 ;;      Params:         0       0       0       0       0       0       0       0       0
+  1541 ;;      Locals:         1       0       0       0       0       0       0       0       0
+  1542 ;;      Temps:         14       0       0       0       0       0       0       0       0
+  1543 ;;      Totals:        15       0       0       0       0       0       0       0       0
+  1544 ;;Total ram usage:       15 bytes
+  1545 ;; Hardware stack levels used:    1
+  1546 ;; Hardware stack levels required when called:    2
+  1547 ;; This function calls:
+  1548 ;;		i2_spi_fast_shift
+  1549 ;;		i2_wl_module_config_register
+  1550 ;; This function is called by:
+  1551 ;;		Interrupt level 2
+  1552 ;; This function uses a non-reentrant model
+  1553 ;;
+  1554                           
+  1555                           	psect	intcode
+  1556  000008                     __pintcode:
+  1557                           	opt stack 0
+  1558  000008                     _ISR:
+  1559                           	opt stack 24
+  1560                           
+  1561                           ;incstack = 0
+  1562  000008  8234               	bsf	btemp,1,c	;set compiler interrupt flag (level 2)
+  1563  00000A  CFFA F004          	movff	pclath,??_ISR
+  1564  00000E  CFFB F005          	movff	pclatu,??_ISR+1
+  1565  000012  CFE9 F006          	movff	fsr0l,??_ISR+2
+  1566  000016  CFEA F007          	movff	fsr0h,??_ISR+3
+  1567  00001A  CFE1 F008          	movff	fsr1l,??_ISR+4
+  1568  00001E  CFE2 F009          	movff	fsr1h,??_ISR+5
+  1569  000022  CFD9 F00A          	movff	fsr2l,??_ISR+6
+  1570  000026  CFDA F00B          	movff	fsr2h,??_ISR+7
+  1571  00002A  CFF3 F00C          	movff	prodl,??_ISR+8
+  1572  00002E  CFF4 F00D          	movff	prodh,??_ISR+9
+  1573  000032  CFF6 F00E          	movff	tblptrl,??_ISR+10
+  1574  000036  CFF7 F00F          	movff	tblptrh,??_ISR+11
+  1575  00003A  CFF8 F010          	movff	tblptru,??_ISR+12
+  1576  00003E  CFF5 F011          	movff	tablat,??_ISR+13
+  1577                           
+  1578                           ;main.c: 80: if( INTCON3bits.INT2IF ){
+  1579  000042  A2F0               	btfss	intcon3,1,c	;volatile
+  1580  000044  D024               	goto	i2l241
+  1581                           
+  1582                           ;main.c: 81: unsigned char status;
+  1583                           ;main.c: 84: LATBbits.LATB4 = 0;;
+  1584  000046  988A               	bcf	3978,4,c	;volatile
+  1585                           
+  1586                           ;main.c: 85: status = spi_fast_shift(0xFF);
+  1587  000048  0EFF               	movlw	255
+  1588  00004A  EC2C  F002         	call	i2_spi_fast_shift
+  1589  00004E  6E12               	movwf	ISR@status,c
+  1590                           
+  1591                           ;main.c: 86: LATBbits.LATB4 = 1;;
+  1592  000050  888A               	bsf	3978,4,c	;volatile
+  1593                           
+  1594                           ;main.c: 89: if (status & (1<<5)){
+  1595  000052  AA12               	btfss	ISR@status,5,c
+  1596  000054  D007               	goto	i2l1523
+  1597                           
+  1598                           ;main.c: 90: wl_module_config_register(0x07, (1<<5));
+  1599  000056  0E20               	movlw	32
+  1600  000058  6E02               	movwf	i2wl_module_config_register@value,c
+  1601  00005A  0E07               	movlw	7
+  1602  00005C  EC0E  F002         	call	i2_wl_module_config_register
+  1603                           
+  1604                           ;main.c: 91: PTX=0;
+  1605  000060  0E00               	movlw	0
+  1606  000062  6E33               	movwf	_PTX,c	;volatile
+  1607  000064                     i2l1523:
+  1608                           
+  1609                           ;main.c: 92: }
+  1610                           ;main.c: 94: if (status & (1<<4)){
+  1611  000064  A812               	btfss	ISR@status,4,c
+  1612  000066  D00B               	goto	i2l1533
+  1613                           
+  1614                           ;main.c: 95: wl_module_config_register(0x07, (1<<4));
+  1615  000068  0E10               	movlw	16
+  1616  00006A  6E02               	movwf	i2wl_module_config_register@value,c
+  1617  00006C  0E07               	movlw	7
+  1618  00006E  EC0E  F002         	call	i2_wl_module_config_register
+  1619                           
+  1620                           ;main.c: 96: LATBbits.LATB3 = 1;;
+  1621  000072  868A               	bsf	3978,3,c	;volatile
+  1622                           
+  1623                           ;main.c: 97: _delay((unsigned long)((10)*(16000000UL/4000000.0)));
+  1624  000074  0E0D               	movlw	13
+  1625  000076                     i2u59_47:
+  1626  000076  2EE8               	decfsz	wreg,f,c
+  1627  000078  D7FE               	bra	i2u59_47
+  1628  00007A  F000               	nop	
+  1629                           
+  1630                           ;main.c: 98: LATBbits.LATB3 = 0;;
+  1631  00007C  968A               	bcf	3978,3,c	;volatile
+  1632  00007E                     i2l1533:
+  1633                           
+  1634                           ;main.c: 99: }
+  1635                           ;main.c: 101: if (status & (1<<0)){
+  1636  00007E  A012               	btfss	ISR@status,0,c
+  1637  000080  D005               	goto	i2l1541
+  1638                           
+  1639                           ;main.c: 102: LATBbits.LATB4 = 0;;
+  1640  000082  988A               	bcf	3978,4,c	;volatile
+  1641                           
+  1642                           ;main.c: 103: spi_fast_shift(0xE1);
+  1643  000084  0EE1               	movlw	225
+  1644  000086  EC2C  F002         	call	i2_spi_fast_shift
+  1645                           
+  1646                           ;main.c: 104: LATBbits.LATB4 = 1;;
+  1647  00008A  888A               	bsf	3978,4,c	;volatile
+  1648  00008C                     i2l1541:
+  1649                           
+  1650                           ;main.c: 105: }
+  1651                           ;main.c: 107: INTCON3bits.INT2IF = 0;
+  1652  00008C  92F0               	bcf	intcon3,1,c	;volatile
+  1653  00008E                     i2l241:
+  1654  00008E  C011  FFF5         	movff	??_ISR+13,tablat
+  1655  000092  C010  FFF8         	movff	??_ISR+12,tblptru
+  1656  000096  C00F  FFF7         	movff	??_ISR+11,tblptrh
+  1657  00009A  C00E  FFF6         	movff	??_ISR+10,tblptrl
+  1658  00009E  C00D  FFF4         	movff	??_ISR+9,prodh
+  1659  0000A2  C00C  FFF3         	movff	??_ISR+8,prodl
+  1660  0000A6  C00B  FFDA         	movff	??_ISR+7,fsr2h
+  1661  0000AA  C00A  FFD9         	movff	??_ISR+6,fsr2l
+  1662  0000AE  C009  FFE2         	movff	??_ISR+5,fsr1h
+  1663  0000B2  C008  FFE1         	movff	??_ISR+4,fsr1l
+  1664  0000B6  C007  FFEA         	movff	??_ISR+3,fsr0h
+  1665  0000BA  C006  FFE9         	movff	??_ISR+2,fsr0l
+  1666  0000BE  C005  FFFB         	movff	??_ISR+1,pclatu
+  1667  0000C2  C004  FFFA         	movff	??_ISR,pclath
+  1668  0000C6  9234               	bcf	btemp,1,c	;clear compiler interrupt flag (level 2)
+  1669  0000C8  0011               	retfie		f
+  1670  0000CA                     __end_of_ISR:
+  1671                           	opt stack 0
+  1672                           pclatu	equ	0xFFB
+  1673                           pclath	equ	0xFFA
+  1674                           tblptru	equ	0xFF8
+  1675                           tblptrh	equ	0xFF7
+  1676                           tblptrl	equ	0xFF6
+  1677                           tablat	equ	0xFF5
+  1678                           prodh	equ	0xFF4
+  1679                           prodl	equ	0xFF3
+  1680                           intcon	equ	0xFF2
+  1681                           intcon2	equ	0xFF1
+  1682                           intcon3	equ	0xFF0
+  1683                           postinc0	equ	0xFEE
+  1684                           fsr0h	equ	0xFEA
+  1685                           fsr0l	equ	0xFE9
+  1686                           wreg	equ	0xFE8
+  1687                           fsr1h	equ	0xFE2
+  1688                           fsr1l	equ	0xFE1
+  1689                           indf2	equ	0xFDF
+  1690                           fsr2h	equ	0xFDA
+  1691                           fsr2l	equ	0xFD9
+  1692                           status	equ	0xFD8
+  1693                           
+  1694 ;; *************** function i2_wl_module_config_register *****************
+  1695 ;; Defined at:
+  1696 ;;		line 418 in file "wl_module.c"
+  1697 ;; Parameters:    Size  Location     Type
+  1698 ;;  reg             1    wreg     unsigned char 
+  1699 ;;  value           1    1[COMRAM] unsigned char 
+  1700 ;; Auto vars:     Size  Location     Type
+  1701 ;;  reg             1    2[COMRAM] unsigned char 
+  1702 ;; Return value:  Size  Location     Type
+  1703 ;;                  1    wreg      void 
+  1704 ;; Registers used:
+  1705 ;;		wreg, status,2, status,0, cstack
+  1706 ;; Tracked objects:
+  1707 ;;		On entry : 0/0
+  1708 ;;		On exit  : 0/0
+  1709 ;;		Unchanged: 0/0
+  1710 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1711 ;;      Params:         1       0       0       0       0       0       0       0       0
+  1712 ;;      Locals:         1       0       0       0       0       0       0       0       0
+  1713 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1714 ;;      Totals:         2       0       0       0       0       0       0       0       0
+  1715 ;;Total ram usage:        2 bytes
+  1716 ;; Hardware stack levels used:    1
+  1717 ;; Hardware stack levels required when called:    1
+  1718 ;; This function calls:
+  1719 ;;		i2_spi_fast_shift
+  1720 ;; This function is called by:
+  1721 ;;		_ISR
+  1722 ;; This function uses a non-reentrant model
+  1723 ;;
+  1724                           
+  1725                           	psect	text13
+  1726  00041C                     __ptext13:
+  1727                           	opt stack 0
+  1728  00041C                     i2_wl_module_config_register:
+  1729                           	opt stack 24
+  1730                           
+  1731                           ;incstack = 0
+  1732                           ;i2wl_module_config_register@reg stored from wreg
+  1733  00041C  6E03               	movwf	i2wl_module_config_register@reg,c
+  1734                           
+  1735                           ;wl_module.c: 421: LATBbits.LATB4 = 0;;
+  1736  00041E  988A               	bcf	3978,4,c	;volatile
+  1737                           
+  1738                           ;wl_module.c: 422: spi_fast_shift(0x20 | (0x1F & reg));
+  1739  000420  5003               	movf	i2wl_module_config_register@reg,w,c
+  1740  000422  0B1F               	andlw	31
+  1741  000424  0920               	iorlw	32
+  1742  000426  EC2C  F002         	call	i2_spi_fast_shift
+  1743                           
+  1744                           ;wl_module.c: 423: spi_fast_shift(value);
+  1745  00042A  5002               	movf	i2wl_module_config_register@value,w,c
+  1746  00042C  EC2C  F002         	call	i2_spi_fast_shift
+  1747                           
+  1748                           ;wl_module.c: 424: LATBbits.LATB4 = 1;;
+  1749  000430  888A               	bsf	3978,4,c	;volatile
+  1750  000432  0012               	return		;funcret
+  1751  000434                     __end_ofi2_wl_module_config_register:
+  1752                           	opt stack 0
+  1753                           pclatu	equ	0xFFB
+  1754                           pclath	equ	0xFFA
+  1755                           tblptru	equ	0xFF8
+  1756                           tblptrh	equ	0xFF7
+  1757                           tblptrl	equ	0xFF6
+  1758                           tablat	equ	0xFF5
+  1759                           prodh	equ	0xFF4
+  1760                           prodl	equ	0xFF3
+  1761                           intcon	equ	0xFF2
+  1762                           intcon2	equ	0xFF1
+  1763                           intcon3	equ	0xFF0
+  1764                           postinc0	equ	0xFEE
+  1765                           fsr0h	equ	0xFEA
+  1766                           fsr0l	equ	0xFE9
+  1767                           wreg	equ	0xFE8
+  1768                           fsr1h	equ	0xFE2
+  1769                           fsr1l	equ	0xFE1
+  1770                           indf2	equ	0xFDF
+  1771                           fsr2h	equ	0xFDA
+  1772                           fsr2l	equ	0xFD9
+  1773                           status	equ	0xFD8
+  1774                           
+  1775 ;; *************** function i2_spi_fast_shift *****************
+  1776 ;; Defined at:
+  1777 ;;		line 62 in file "spi.c"
+  1778 ;; Parameters:    Size  Location     Type
+  1779 ;;  data            1    wreg     unsigned char 
+  1780 ;; Auto vars:     Size  Location     Type
+  1781 ;;  data            1    0[COMRAM] unsigned char 
+  1782 ;; Return value:  Size  Location     Type
+  1783 ;;                  1    wreg      unsigned char 
+  1784 ;; Registers used:
+  1785 ;;		wreg, status,2
+  1786 ;; Tracked objects:
+  1787 ;;		On entry : 0/0
+  1788 ;;		On exit  : 0/0
+  1789 ;;		Unchanged: 0/0
+  1790 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1791 ;;      Params:         0       0       0       0       0       0       0       0       0
+  1792 ;;      Locals:         1       0       0       0       0       0       0       0       0
+  1793 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1794 ;;      Totals:         1       0       0       0       0       0       0       0       0
+  1795 ;;Total ram usage:        1 bytes
+  1796 ;; Hardware stack levels used:    1
+  1797 ;; This function calls:
+  1798 ;;		Nothing
+  1799 ;; This function is called by:
+  1800 ;;		_ISR
+  1801 ;;		i2_wl_module_config_register
+  1802 ;; This function uses a non-reentrant model
+  1803 ;;
+  1804                           
+  1805                           	psect	text14
+  1806  000458                     __ptext14:
+  1807                           	opt stack 0
+  1808  000458                     i2_spi_fast_shift:
+  1809                           	opt stack 24
+  1810                           
+  1811                           ;incstack = 0
+  1812                           ;i2spi_fast_shift@data stored from wreg
+  1813  000458  6E01               	movwf	i2spi_fast_shift@data,c
+  1814                           
+  1815                           ;spi.c: 63: SSP1BUF = data;
+  1816  00045A  C001  FFC9         	movff	i2spi_fast_shift@data,4041	;volatile
+  1817  00045E                     i2l40:
+  1818  00045E  A69E               	btfss	3998,3,c	;volatile
+  1819  000460  D7FE               	goto	i2l40
+  1820                           
+  1821                           ;spi.c: 65: PIR1bits.SSP1IF = 0;
+  1822  000462  969E               	bcf	3998,3,c	;volatile
+  1823                           
+  1824                           ;spi.c: 66: return SSP1BUF;
+  1825  000464  50C9               	movf	4041,w,c	;volatile
+  1826  000466  0012               	return		;funcret
+  1827  000468                     __end_ofi2_spi_fast_shift:
+  1828                           	opt stack 0
+  1829  0000                     pclatu	equ	0xFFB
+  1830                           pclath	equ	0xFFA
+  1831                           tblptru	equ	0xFF8
+  1832                           tblptrh	equ	0xFF7
+  1833                           tblptrl	equ	0xFF6
+  1834                           tablat	equ	0xFF5
+  1835                           prodh	equ	0xFF4
+  1836                           prodl	equ	0xFF3
+  1837                           intcon	equ	0xFF2
+  1838                           intcon2	equ	0xFF1
+  1839                           intcon3	equ	0xFF0
+  1840                           postinc0	equ	0xFEE
+  1841                           fsr0h	equ	0xFEA
+  1842                           fsr0l	equ	0xFE9
+  1843                           wreg	equ	0xFE8
+  1844                           fsr1h	equ	0xFE2
+  1845                           fsr1l	equ	0xFE1
+  1846                           indf2	equ	0xFDF
+  1847                           fsr2h	equ	0xFDA
+  1848                           fsr2l	equ	0xFD9
+  1849                           status	equ	0xFD8
+  1850                           pclatu	equ	0xFFB
+  1851                           pclath	equ	0xFFA
+  1852                           tblptru	equ	0xFF8
+  1853                           tblptrh	equ	0xFF7
+  1854                           tblptrl	equ	0xFF6
+  1855                           tablat	equ	0xFF5
+  1856                           prodh	equ	0xFF4
+  1857                           prodl	equ	0xFF3
+  1858                           intcon	equ	0xFF2
+  1859                           intcon2	equ	0xFF1
+  1860                           intcon3	equ	0xFF0
+  1861                           postinc0	equ	0xFEE
+  1862                           fsr0h	equ	0xFEA
+  1863                           fsr0l	equ	0xFE9
+  1864                           wreg	equ	0xFE8
+  1865                           fsr1h	equ	0xFE2
+  1866                           fsr1l	equ	0xFE1
+  1867                           indf2	equ	0xFDF
+  1868                           fsr2h	equ	0xFDA
+  1869                           fsr2l	equ	0xFD9
+  1870                           status	equ	0xFD8
+  1871                           
+  1872                           	psect	rparam
+  1873  0000                     pclatu	equ	0xFFB
+  1874                           pclath	equ	0xFFA
+  1875                           tblptru	equ	0xFF8
+  1876                           tblptrh	equ	0xFF7
+  1877                           tblptrl	equ	0xFF6
+  1878                           tablat	equ	0xFF5
+  1879                           prodh	equ	0xFF4
+  1880                           prodl	equ	0xFF3
+  1881                           intcon	equ	0xFF2
+  1882                           intcon2	equ	0xFF1
+  1883                           intcon3	equ	0xFF0
+  1884                           postinc0	equ	0xFEE
+  1885                           fsr0h	equ	0xFEA
+  1886                           fsr0l	equ	0xFE9
+  1887                           wreg	equ	0xFE8
+  1888                           fsr1h	equ	0xFE2
+  1889                           fsr1l	equ	0xFE1
+  1890                           indf2	equ	0xFDF
+  1891                           fsr2h	equ	0xFDA
+  1892                           fsr2l	equ	0xFD9
+  1893                           status	equ	0xFD8
+  1894                           
+  1895                           	psect	temp
+  1896  000034                     btemp:
+  1897                           	opt stack 0
+  1898  000034                     	ds	1
+  1899  0000                     int$flags	set	btemp
+  1900                           pclatu	equ	0xFFB
+  1901                           pclath	equ	0xFFA
+  1902                           tblptru	equ	0xFF8
+  1903                           tblptrh	equ	0xFF7
+  1904                           tblptrl	equ	0xFF6
+  1905                           tablat	equ	0xFF5
+  1906                           prodh	equ	0xFF4
+  1907                           prodl	equ	0xFF3
+  1908                           intcon	equ	0xFF2
+  1909                           intcon2	equ	0xFF1
+  1910                           intcon3	equ	0xFF0
+  1911                           postinc0	equ	0xFEE
+  1912                           fsr0h	equ	0xFEA
+  1913                           fsr0l	equ	0xFE9
+  1914                           wreg	equ	0xFE8
+  1915                           fsr1h	equ	0xFE2
+  1916                           fsr1l	equ	0xFE1
+  1917                           indf2	equ	0xFDF
+  1918                           fsr2h	equ	0xFDA
+  1919                           fsr2l	equ	0xFD9
+  1920                           status	equ	0xFD8
+
+
+Data Sizes:
+    Strings     0
+    Constant    0
+    Data        0
+    BSS         16
+    Persistent  0
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMRAM           94     35      51
+    BANK0           160     34      34
+    BANK1           256      0       0
+    BANK2           256      0       0
+    BANK3           256      0       0
+    BANK4           256      0       0
+    BANK5           256      0       0
+    BANK6           256      0       0
+    BANK7           256      0       0
+
+Pointer List with Targets:
+
+    wl_module_send@value	PTR unsigned char  size(2) Largest target is 32
+		 -> main@payload(BANK0[32]), 
+
+    wl_module_write_register@value	PTR unsigned char  size(2) Largest target is 5
+		 -> wl_module_set_rx_pw@payloadwidth(COMRAM[1]), wl_module_power_down@config(COMRAM[1]), wl_module_set_as_tx@config(COMRAM[1]), wl_module_tx_config@tx_addr(COMRAM[5]), 
+		 -> wl_module_rx_config@data(COMRAM[5]), 
+
+    wl_module_set_TADDR@adr	PTR unsigned char  size(2) Largest target is 5
+		 -> wl_module_tx_config@tx_addr(COMRAM[5]), 
+
+    wl_module_set_RADDR@adr	PTR unsigned char  size(2) Largest target is 5
+		 -> wl_module_tx_config@tx_addr(COMRAM[5]), 
+
+    spi_transmit_sync@data	PTR unsigned char  size(2) Largest target is 32
+		 -> main@payload(BANK0[32]), wl_module_set_rx_pw@payloadwidth(COMRAM[1]), wl_module_power_down@config(COMRAM[1]), wl_module_set_as_tx@config(COMRAM[1]), 
+		 -> wl_module_tx_config@tx_addr(COMRAM[5]), wl_module_rx_config@data(COMRAM[5]), 
+
+
+Critical Paths under _main in COMRAM
+
+    _main->_wl_module_tx_config
+    _wl_module_tx_config->_wl_module_set_RADDR
+    _wl_module_tx_config->_wl_module_set_TADDR
+    _wl_module_set_TADDR->_wl_module_write_register
+    _wl_module_set_RADDR->_wl_module_write_register
+    _wl_module_write_register->_spi_transmit_sync
+    _wl_module_send->_spi_transmit_sync
+    _wl_module_config_register->_spi_fast_shift
+
+Critical Paths under _ISR in COMRAM
+
+    _ISR->i2_wl_module_config_register
+    i2_wl_module_config_register->i2_spi_fast_shift
+
+Critical Paths under _main in BANK0
+
+    None.
+
+Critical Paths under _ISR in BANK0
+
+    None.
+
+Critical Paths under _main in BANK1
+
+    None.
+
+Critical Paths under _ISR in BANK1
+
+    None.
+
+Critical Paths under _main in BANK2
+
+    None.
+
+Critical Paths under _ISR in BANK2
+
+    None.
+
+Critical Paths under _main in BANK3
+
+    None.
+
+Critical Paths under _ISR in BANK3
+
+    None.
+
+Critical Paths under _main in BANK4
+
+    None.
+
+Critical Paths under _ISR in BANK4
+
+    None.
+
+Critical Paths under _main in BANK5
+
+    None.
+
+Critical Paths under _ISR in BANK5
+
+    None.
+
+Critical Paths under _main in BANK6
+
+    None.
+
+Critical Paths under _ISR in BANK6
+
+    None.
+
+Critical Paths under _main in BANK7
+
+    None.
+
+Critical Paths under _ISR in BANK7
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                34    34      0   10237
+                                              0 BANK0     34    34      0
+                        __delay_10ms
+                     _wl_module_init
+                     _wl_module_send
+                _wl_module_tx_config
+ ---------------------------------------------------------------------------------
+ (1) _wl_module_tx_config                                  6     6      0    7227
+                                             29 COMRAM     6     6      0
+          _wl_module_config_register
+                _wl_module_set_RADDR
+                _wl_module_set_TADDR
+ ---------------------------------------------------------------------------------
+ (2) _wl_module_set_TADDR                                  2     0      2    2065
+                                             27 COMRAM     2     0      2
+           _wl_module_write_register
+ ---------------------------------------------------------------------------------
+ (2) _wl_module_set_RADDR                                  2     0      2    2065
+                                             27 COMRAM     2     0      2
+           _wl_module_write_register
+ ---------------------------------------------------------------------------------
+ (3) _wl_module_write_register                             4     1      3    1572
+                                             23 COMRAM     4     1      3
+                     _spi_fast_shift
+                  _spi_transmit_sync
+ ---------------------------------------------------------------------------------
+ (1) _wl_module_send                                       3     0      3    2402
+                                             23 COMRAM     3     0      3
+                     _spi_fast_shift
+                  _spi_transmit_sync
+          _wl_module_config_register
+ ---------------------------------------------------------------------------------
+ (2) _wl_module_config_register                            2     1      1    1785
+                                             19 COMRAM     2     1      1
+                     _spi_fast_shift
+ ---------------------------------------------------------------------------------
+ (4) _spi_fast_shift                                       1     1      0      22
+                                             18 COMRAM     1     1      0
+ ---------------------------------------------------------------------------------
+ (4) _spi_transmit_sync                                    5     1      4     379
+                                             18 COMRAM     5     1      4
+ ---------------------------------------------------------------------------------
+ (1) _wl_module_init                                       0     0      0       0
+                           _spi_init
+ ---------------------------------------------------------------------------------
+ (2) _spi_init                                             0     0      0       0
+ ---------------------------------------------------------------------------------
+ (1) __delay_10ms                                          3     1      2     265
+                                             18 COMRAM     3     1      2
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 4
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (5) _ISR                                                 15    15      0     207
+                                              3 COMRAM    15    15      0
+                   i2_spi_fast_shift
+        i2_wl_module_config_register
+ ---------------------------------------------------------------------------------
+ (6) i2_wl_module_config_register                          2     1      1     118
+                                              1 COMRAM     2     1      1
+                   i2_spi_fast_shift
+ ---------------------------------------------------------------------------------
+ (7) i2_spi_fast_shift                                     1     1      0      22
+                                              0 COMRAM     1     1      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 7
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   __delay_10ms
+   _wl_module_init
+     _spi_init
+   _wl_module_send
+     _spi_fast_shift
+     _spi_transmit_sync
+     _wl_module_config_register
+       _spi_fast_shift
+   _wl_module_tx_config
+     _wl_module_config_register
+       _spi_fast_shift
+     _wl_module_set_RADDR
+       _wl_module_write_register
+         _spi_fast_shift
+         _spi_transmit_sync
+     _wl_module_set_TADDR
+       _wl_module_write_register
+         _spi_fast_shift
+         _spi_transmit_sync
+
+ _ISR (ROOT)
+   i2_spi_fast_shift
+   i2_wl_module_config_register
+     i2_spi_fast_shift
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BIGRAM             7FF      0       0      21        0.0%
+EEDATA             100      0       0       0        0.0%
+BITBANK7           100      0       0      19        0.0%
+BANK7              100      0       0      20        0.0%
+BITBANK6           100      0       0      17        0.0%
+BANK6              100      0       0      18        0.0%
+BITBANK5           100      0       0      15        0.0%
+BANK5              100      0       0      16        0.0%
+BITBANK4           100      0       0      13        0.0%
+BANK4              100      0       0      14        0.0%
+BITBANK3           100      0       0      11        0.0%
+BANK3              100      0       0      12        0.0%
+BITBANK2           100      0       0       9        0.0%
+BANK2              100      0       0      10        0.0%
+BITBANK1           100      0       0       7        0.0%
+BANK1              100      0       0       8        0.0%
+BITBANK0            A0      0       0       4        0.0%
+BANK0               A0     22      22       5       21.3%
+BITCOMRAM           5E      0       0       0        0.0%
+COMRAM              5E     23      33       1       54.3%
+BITSFR_1             0      0       0     200        0.0%
+SFR_1                0      0       0     200        0.0%
+BITSFR               0      0       0     200        0.0%
+SFR                  0      0       0     200        0.0%
+STACK                0      0       0       2        0.0%
+NULL                 0      0       0       0        0.0%
+ABS                  0      0      55       6        0.0%
+DATA                 0      0      55       3        0.0%
+CODE                 0      0       0       0        0.0%
+
+
+Microchip Technology PIC18 Macro Assembler V1.40 build -251452761 
+Symbol Table                                                                                   Wed May 24 19:25:25 2017
+
+                __size_of__delay_10ms 0020                                    l24 0338  
+                                  l40 044E                                   l222 03B0  
+                                 l230 0296                                   _ISR 0008  
+                                 u577 0320                                   u587 03A2  
+                                 _PTX 0033                                   prod 000FF3  
+                                 wreg 000FE8           __end_of_wl_module_set_RADDR 03EC  
+         __end_of_wl_module_set_TADDR 0448                                  ?_ISR 0001  
+                                l1603 0184                                  l1631 02E0  
+                                l1615 01E0                                  l1623 020E  
+                                l1545 032C                                  l1609 01B2  
+                                l1625 0234                                  l1549 034C  
+                                l1591 0128                                  l1585 00FA  
+                                l1659 039C                                  l1851 0270  
+                                l1597 0156                                  l1871 02C4  
+                                l1855 027A                                  l1847 0268  
+                                i2l40 045E                         __CFG_FCMEN$ON 000000  
+                      _wl_module_init 0404                        _wl_module_send 02E0  
+                         main@payload 0060                                  _main 0244  
+                                fsr0h 000FEA                                  fsr1h 000FE2  
+                                fsr2h 000FDA                                  fsr0l 000FE9  
+                                indf2 000FDF                                  fsr1l 000FE1  
+                                fsr2l 000FD9                                  btemp 0034  
+                       __CFG_BORV$190 000000                                  prodh 000FF4  
+                                prodl 000FF3                                  start 00CA  
+                       __CFG_IESO$OFF 000000                          ___param_bank 000000  
+                               ??_ISR 0004           __end_of_wl_module_tx_config 0244  
+        ?i2_wl_module_config_register 0002             _wl_module_config_register 03EC  
+                               ?_main 0001                                 i2l241 008E  
+              __end_of_wl_module_init 041C                __end_of_wl_module_send 032A  
+                               main@k 0081                                 pclath 000FFA  
+                               tablat 000FF5                                 status 000FD8  
+    __end_of_wl_module_write_register 037A                     wl_module_send@len 001A  
+                     __initialization 03BA                          __end_of_main 02E0  
+                   ?i2_spi_fast_shift 0001                    ??i2_spi_fast_shift 0001  
+       ??i2_wl_module_config_register 0003                                ??_main 0024  
+                       __activetblptr 000002               spi_transmit_sync@length 0015  
+                  spi_fast_shift@data 0013                      ??_spi_fast_shift 0013  
+                     ?_wl_module_init 0001                       ?_wl_module_send 0018  
+                              i2l1523 0064                                i2l1541 008C  
+                              i2l1533 007E                        __CFG_WDTEN$OFF 000000  
+              wl_module_set_RADDR@adr 001C                wl_module_set_TADDR@adr 001C  
+                              clear_0 03C0                                tblptrh 000FF7  
+                              tblptrl 000FF6                                tblptru 000FF8  
+                    __end_of_spi_init 039A                            __accesstop 0060  
+             __end_of__initialization 03C6                         ___rparam_used 000001  
+                      __pcstackCOMRAM 0001                 spi_transmit_sync@data 0013  
+   __size_of_wl_module_write_register 0024             ?_wl_module_write_register 0018  
+  __size_of_wl_module_config_register 0018                             ISR@status 0012  
+                       ??__delay_10ms 0015                               i2u59_47 0076  
+                             _SSP1BUF 000FC9     __end_of_wl_module_config_register 0404  
+        __size_of_wl_module_set_RADDR 0018          __size_of_wl_module_set_TADDR 0014  
+                             __Hparam 0000                               __Lparam 0000  
+                           ?_spi_init 0001                               __pcinit 03BA  
+                             __ramtop 0800                   __end_of__delay_10ms 03BA  
+                             __ptext0 0244                               __ptext1 00CE  
+                             __ptext2 0434                               __ptext3 03D4  
+                             __ptext4 0356                               __ptext5 02E0  
+                             __ptext6 03EC                               __ptext7 0448  
+                             __ptext8 032A                               __ptext9 0404  
+                        __size_of_ISR 00C2                      ??_wl_module_init 0013  
+        __size_of_wl_module_tx_config 0176                      ??_wl_module_send 001B  
+           __size_ofi2_spi_fast_shift 0010                  end_of_initialization 03C6  
+                       __Lmediumconst 0000                            ??_spi_init 0013  
+                             postinc0 000FEE              wl_module_tx_config@tx_nr 001E  
+                  __delay_10ms@length 0013          wl_module_config_register@reg 0015  
+         wl_module_write_register@len 001A           wl_module_write_register@reg 001B  
+                           _TRISAbits 000F92                             _TRISBbits 000F93  
+                           _TRISCbits 000F94                             _TRISDbits 000F95  
+                 wl_module_send@value 0018                           __delay_10ms 039A  
+ __end_ofi2_wl_module_config_register 0434           i2_wl_module_config_register 041C  
+                 start_initialization 03BA                           __end_of_ISR 00CA  
+                i2spi_fast_shift@data 0001               __size_of_spi_fast_shift 0010  
+                 _wl_module_set_RADDR 03D4                   _wl_module_set_TADDR 0434  
+                         __pbssCOMRAM 0024                     _spi_transmit_sync 032A  
+                       __pcstackBANK0 0060                      i2_spi_fast_shift 0458  
+                  ?_spi_transmit_sync 0013                  spi_transmit_sync@tmp 0017  
+                ?_wl_module_set_RADDR 001C                  ?_wl_module_set_TADDR 001C  
+                 ??_spi_transmit_sync 0017                   _wl_module_tx_config 00CE  
+          wl_module_tx_config@tx_addr 001F                             __pintcode 0008  
+                   __size_of_spi_init 0020              _wl_module_write_register 0356  
+           __end_of_spi_transmit_sync 0356                  ?_wl_module_tx_config 0001  
+          ?_wl_module_config_register 0014                       main@maincounter 0080  
+               ??_wl_module_set_RADDR 001E                 ??_wl_module_set_TADDR 001E  
+                            _LATBbits 000F8A                              _LATDbits 000F8C  
+      wl_module_config_register@value 0014      i2wl_module_config_register@value 0002  
+                            _PIR1bits 000F9E         wl_module_write_register@value 0018  
+               ??_wl_module_tx_config 001E                       _received_string 0024  
+                         _INTCON2bits 000FF1                           _INTCON3bits 000FF0  
+      i2wl_module_config_register@reg 0003                              __Hrparam 0000  
+                      _spi_fast_shift 0448                              __Lrparam 0000  
+                        ?__delay_10ms 0013                    __CFG_BOREN$SBORDIS 000000  
+          __size_of_spi_transmit_sync 002C                            _ANSELBbits 000F5C  
+__size_ofi2_wl_module_config_register 0018                              __ptext10 037A  
+                            __ptext11 039A                              __ptext13 041C  
+                            __ptext14 0458                          _SSP1CON1bits 000FC6  
+             __size_of_wl_module_init 0018                         __size_of_main 009C  
+             __size_of_wl_module_send 004A                __end_of_spi_fast_shift 0458  
+            __end_ofi2_spi_fast_shift 0468                              _spi_init 037A  
+                            int$flags 0034                          _SSP1STATbits 000FC7  
+                          _INTCONbits 000FF2                              intlevel2 0000  
+                     ?_spi_fast_shift 0001            ??_wl_module_write_register 001B  
+         ??_wl_module_config_register 0015  
